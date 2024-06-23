@@ -1,0 +1,17 @@
+{
+  "name": "database-oskm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "drizzle-orm": "^0.31.2",
+    "postgres": "^3.4.4",
+    "tsup": "^8.1.0",
+    "tsx": "^4.15.7",
+    "typescript": "^5.5.2"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.22.7"
+  }
+}
