@@ -1,8 +1,9 @@
 {
   "name": "database-oskm",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
+  "main": "./dist/schema.cjs",
+  "module":"./dist/schema.js",
   "type": "module",
   "dependencies": {
     "drizzle-orm": "^0.31.2",
