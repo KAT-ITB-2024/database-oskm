@@ -1,3 +1,4 @@
+import { createId } from "@paralleldrive/cuid2";
 import { relations, sql } from "drizzle-orm";
 import {
   index,
@@ -5,6 +6,7 @@ import {
   pgEnum,
   pgTableCreator,
   primaryKey,
+  serial,
   text,
   timestamp,
   varchar,
@@ -17,62 +19,74 @@ import {
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const createTable = pgTableCreator((name) => `${name}`);
-export const users = createTable("user", {
-  id: varchar("id", { length: 255 }).notNull().primaryKey(),
-  name: varchar("name", { length: 255 }),
-  email: varchar("email", { length: 255 }).notNull(),
-  emailVerified: timestamp("emailVerified", {
-    mode: "date",
-    withTimezone: true,
-  }).default(sql`CURRENT_TIMESTAMP`),
-  image: varchar("image", { length: 255 }),
-});
+export const facultyEnum = pgEnum("fakultas", [
+  "FITB",
+  "FMIPA",
+  "FSRD",
+  "FTMD",
+  "FTTM",
+  "FTSL",
+  "FTI",
+  "SAPPK",
+  "SBM",
+  "SF",
+  "SITH",
+  "STEI",
+]);
 
-export const usersRelations = relations(users, ({ many }) => ({
-  accounts: many(accounts),
-}));
+export const roleEnum = pgEnum("role", ["Peserta", "Mentor", "Mamet"]);
 
-export const accounts = createTable(
-  "account",
+export const genderEnum = pgEnum("gender", ["male", "female"])
+
+export const campusEnum = pgEnum("campus", ["Ganesha", "Jatinangor", "Cirebon"])
+
+export const users = createTable("user", 
   {
-    userId: varchar("userId", { length: 255 })
-      .notNull()
-      .references(() => users.id),
-    type: varchar("type", { length: 255 })
-      .notNull(),
-    provider: varchar("provider", { length: 255 }).notNull(),
-    providerAccountId: varchar("providerAccountId", { length: 255 }).notNull(),
-    refresh_token: text("refresh_token"),
-    access_token: text("access_token"),
-    expires_at: integer("expires_at"),
-    token_type: varchar("token_type", { length: 255 }),
-    scope: varchar("scope", { length: 255 }),
-    id_token: text("id_token"),
-    session_state: varchar("session_state", { length: 255 }),
-  },
-  (account) => ({
-    compoundKey: primaryKey({
-      columns: [account.provider, account.providerAccountId],
-    }),
-    userIdIdx: index("account_userId_idx").on(account.userId),
-  })
-);
-
-export const accountsRelations = relations(accounts, ({ one }) => ({
-  user: one(users, { fields: [accounts.userId], references: [users.id] }),
-}));
-
-export const verificationTokens = createTable(
-  "verificationToken",
-  {
-    identifier: varchar("identifier", { length: 255 }).notNull(),
-    token: varchar("token", { length: 255 }).notNull(),
-    expires: timestamp("expires", {
+    id: text('id').primaryKey().$defaultFn(createId),
+    nim: varchar('nim', { length: 100 }).unique().notNull(),
+    role: roleEnum("role").notNull(),
+    password: varchar('password', { length: 255 }).notNull(),
+    createdAt: timestamp("createdAt", {
       mode: "date",
       withTimezone: true,
-    }).notNull(),
+    }).notNull().defaultNow(),
+    updatedAt: timestamp("updatedAt", {
+      mode: "date",
+      withTimezone: true,
+    }).notNull().defaultNow(),
   },
-  (vt) => ({
-    compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
+  (user) => ({
+    idIdx: index().on(user.id),
+    nimIdx: index().on(user.nim)
+  }),
+);
+
+export const profiles = createTable("profile", 
+  {
+    id: text('id').primaryKey().$defaultFn(createId),
+    name: varchar('name', { length: 255 }).notNull(),
+    userId: text("userId").notNull().references(() => users.id),
+    faculty: facultyEnum('faculty').notNull(),
+    gender: genderEnum("gender").notNull(),
+    campus: campusEnum("campus").notNull(),
+    updatedAt: timestamp("updatedAt", {
+      mode: "date",
+      withTimezone: true,
+    }).notNull().defaultNow(),
+    profileImage: text("profileImage"),
+  },
+  (profile) =>({
+    userIdIdx: index().on(profile.userId)
   })
 );
+
+export const usersRelations = relations(users, ({ many, one }) => ({
+    profile: one(profiles)
+}));
+
+export const profilesRelations = relations(profiles, ({one}) => ({
+  users: one(users, {
+    fields: [profiles.userId],
+    references: [users.id]
+  })
+}))

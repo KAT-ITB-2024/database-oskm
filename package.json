@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "license": "MIT",
   "main": "./dist/schema.cjs",
-  "module":"./dist/schema.js",
+  "module": "./dist/schema.js",
   "type": "module",
   "dependencies": {
+    "@paralleldrive/cuid2": "^2.2.2",
     "drizzle-orm": "^0.31.2",
     "postgres": "^3.4.4",
     "tsup": "^8.1.0",
