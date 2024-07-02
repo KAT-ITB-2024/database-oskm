@@ -36,57 +36,77 @@ export const facultyEnum = pgEnum("fakultas", [
 
 export const roleEnum = pgEnum("role", ["Peserta", "Mentor", "Mamet"]);
 
-export const genderEnum = pgEnum("gender", ["male", "female"])
+export const genderEnum = pgEnum("gender", ["male", "female"]);
 
-export const campusEnum = pgEnum("campus", ["Ganesha", "Jatinangor", "Cirebon"])
+export const campusEnum = pgEnum("campus", [
+  "Ganesha",
+  "Jatinangor",
+  "Cirebon",
+]);
 
-export const users = createTable("user", 
+export const users = createTable(
+  "user",
   {
-    id: text('id').primaryKey().$defaultFn(createId),
-    nim: varchar('nim', { length: 100 }).unique().notNull(),
+    id: text("id").primaryKey().$defaultFn(createId),
+    nim: varchar("nim", { length: 100 }).unique().notNull(),
     role: roleEnum("role").notNull(),
-    password: varchar('password', { length: 255 }).notNull(),
+    password: varchar("password", { length: 255 }).notNull(),
     createdAt: timestamp("createdAt", {
       mode: "date",
       withTimezone: true,
-    }).notNull().defaultNow(),
+    })
+      .notNull()
+      .defaultNow(),
     updatedAt: timestamp("updatedAt", {
       mode: "date",
       withTimezone: true,
-    }).notNull().defaultNow(),
+    })
+      .notNull()
+      .defaultNow(),
   },
   (user) => ({
     idIdx: index().on(user.id),
-    nimIdx: index().on(user.nim)
-  }),
+    nimIdx: index().on(user.nim),
+  })
 );
 
-export const profiles = createTable("profile", 
+export const profiles = createTable(
+  "profile",
   {
-    id: text('id').primaryKey().$defaultFn(createId),
-    name: varchar('name', { length: 255 }).notNull(),
-    userId: text("userId").notNull().references(() => users.id),
-    faculty: facultyEnum('faculty').notNull(),
+    id: text("id").primaryKey().$defaultFn(createId),
+    name: varchar("name", { length: 255 }).notNull(),
+    userId: text("userId")
+      .notNull()
+      .references(() => users.id),
+    faculty: facultyEnum("faculty").notNull(),
     gender: genderEnum("gender").notNull(),
     campus: campusEnum("campus").notNull(),
     updatedAt: timestamp("updatedAt", {
       mode: "date",
       withTimezone: true,
-    }).notNull().defaultNow(),
+    })
+      .notNull()
+      .defaultNow(),
     profileImage: text("profileImage"),
   },
-  (profile) =>({
-    userIdIdx: index().on(profile.userId)
+  (profile) => ({
+    userIdIdx: index().on(profile.userId),
   })
 );
 
 export const usersRelations = relations(users, ({ many, one }) => ({
-    profile: one(profiles)
+  profile: one(profiles),
 }));
 
-export const profilesRelations = relations(profiles, ({one}) => ({
+export const profilesRelations = relations(profiles, ({ one }) => ({
   users: one(users, {
     fields: [profiles.userId],
-    references: [users.id]
-  })
-}))
+    references: [users.id],
+  }),
+}));
+
+export type User = typeof users.$inferSelect;
+export type Profile = typeof profiles.$inferSelect;
+export type UserRole = (typeof roleEnum.enumValues)[number];
+export type UserFaculty = (typeof facultyEnum.enumValues)[number];
+export type UserGender = (typeof genderEnum.enumValues)[number];
