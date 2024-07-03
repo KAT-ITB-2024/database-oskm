@@ -110,3 +110,5 @@ export type Profile = typeof profiles.$inferSelect;
 export type UserRole = (typeof roleEnum.enumValues)[number];
 export type UserFaculty = (typeof facultyEnum.enumValues)[number];
 export type UserGender = (typeof genderEnum.enumValues)[number];
+export type UserCampus = (typeof campusEnum.enumValues)[number];
+

@@ -205,5 +205,6 @@ type Profile = typeof profiles.$inferSelect;
 type UserRole = (typeof roleEnum.enumValues)[number];
 type UserFaculty = (typeof facultyEnum.enumValues)[number];
 type UserGender = (typeof genderEnum.enumValues)[number];
+type UserCampus = (typeof campusEnum.enumValues)[number];
 
-export { type Profile, type User, type UserFaculty, type UserGender, type UserRole, campusEnum, createTable, facultyEnum, genderEnum, profiles, profilesRelations, roleEnum, users, usersRelations };
+export { type Profile, type User, type UserCampus, type UserFaculty, type UserGender, type UserRole, campusEnum, createTable, facultyEnum, genderEnum, profiles, profilesRelations, roleEnum, users, usersRelations };
