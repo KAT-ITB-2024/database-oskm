@@ -200,5 +200,11 @@ declare const usersRelations: drizzle_orm.Relations<"user", {
 declare const profilesRelations: drizzle_orm.Relations<"profile", {
     users: drizzle_orm.One<"user", true>;
 }>;
+type User = typeof users.$inferSelect;
+type Profile = typeof profiles.$inferSelect;
+type UserRole = (typeof roleEnum.enumValues)[number];
+type UserFaculty = (typeof facultyEnum.enumValues)[number];
+type UserGender = (typeof genderEnum.enumValues)[number];
+type UserCampus = (typeof campusEnum.enumValues)[number];
 
-export { campusEnum, createTable, facultyEnum, genderEnum, profiles, profilesRelations, roleEnum, users, usersRelations };
+export { type Profile, type User, type UserCampus, type UserFaculty, type UserGender, type UserRole, campusEnum, createTable, facultyEnum, genderEnum, profiles, profilesRelations, roleEnum, users, usersRelations };
