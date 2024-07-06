@@ -19,7 +19,7 @@ import {
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const createTable = pgTableCreator((name) => `${name}`);
-export const facultyEnum = pgEnum('fakultas', [
+export const facultyEnum = pgEnum('faculties', [
   'FITB',
   'FMIPA',
   'FSRD',
@@ -45,7 +45,7 @@ export const campusEnum = pgEnum('campus', [
 ]);
 
 export const users = createTable(
-  'user',
+  'users',
   {
     id: text('id').primaryKey().$defaultFn(createId),
     nim: varchar('nim', { length: 100 }).unique().notNull(),
@@ -78,12 +78,12 @@ export const usersRelations = relations(users, ({ many, one }) => ({
 }));
 
 export const profiles = createTable(
-  'profile',
+  'profiles',
   {
     name: varchar('name', { length: 255 }).notNull(),
     userId: text('userId')
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, { onDelete: 'cascade' }),
     faculty: facultyEnum('faculty').notNull(),
     gender: genderEnum('gender').notNull(),
     campus: campusEnum('campus').notNull(),
@@ -107,14 +107,14 @@ export const profilesRelations = relations(profiles, ({ one }) => ({
   }),
 }));
 
-export const userMatches = createTable('userMatch', {
+export const userMatches = createTable('userMatches', {
   id: text('id').primaryKey().$defaultFn(createId),
   firstUserId: text('firstUserId')
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: 'cascade' }),
   secondUserId: text('secondUserId')
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: 'cascade' }),
   createdAt: timestamp('createdAt', {
     mode: 'date',
     withTimezone: true,
@@ -135,7 +135,7 @@ export const userMatchesRelations = relations(userMatches, ({ many, one }) => ({
   messages: many(messages),
 }));
 
-export const messages = createTable('message', {
+export const messages = createTable('messages', {
   id: text('id').primaryKey().$defaultFn(createId),
   senderId: text('senderId')
     .notNull()
@@ -151,7 +151,7 @@ export const messages = createTable('message', {
     .defaultNow(),
   userMatchId: text('userMatchId')
     .notNull()
-    .references(() => userMatches.id),
+    .references(() => userMatches.id, { onDelete: 'cascade' }),
 });
 
 export const messagesRelations = relations(messages, ({ many, one }) => ({
