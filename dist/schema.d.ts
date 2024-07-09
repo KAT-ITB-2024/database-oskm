@@ -13,12 +13,12 @@ declare const roleEnum: drizzle_orm_pg_core.PgEnum<["Peserta", "Mentor", "Mamet"
 declare const genderEnum: drizzle_orm_pg_core.PgEnum<["male", "female"]>;
 declare const campusEnum: drizzle_orm_pg_core.PgEnum<["Ganesha", "Jatinangor", "Cirebon"]>;
 declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
-    name: "user";
+    name: "users";
     schema: undefined;
     columns: {
         id: drizzle_orm_pg_core.PgColumn<{
             name: "id";
-            tableName: "user";
+            tableName: "users";
             dataType: "string";
             columnType: "PgText";
             data: string;
@@ -30,7 +30,7 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         nim: drizzle_orm_pg_core.PgColumn<{
             name: "nim";
-            tableName: "user";
+            tableName: "users";
             dataType: "string";
             columnType: "PgVarchar";
             data: string;
@@ -42,7 +42,7 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         role: drizzle_orm_pg_core.PgColumn<{
             name: "role";
-            tableName: "user";
+            tableName: "users";
             dataType: "string";
             columnType: "PgEnumColumn";
             data: "Peserta" | "Mentor" | "Mamet";
@@ -54,7 +54,7 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         password: drizzle_orm_pg_core.PgColumn<{
             name: "password";
-            tableName: "user";
+            tableName: "users";
             dataType: "string";
             columnType: "PgVarchar";
             data: string;
@@ -66,7 +66,7 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         createdAt: drizzle_orm_pg_core.PgColumn<{
             name: "createdAt";
-            tableName: "user";
+            tableName: "users";
             dataType: "date";
             columnType: "PgTimestamp";
             data: Date;
@@ -78,7 +78,7 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         updatedAt: drizzle_orm_pg_core.PgColumn<{
             name: "updatedAt";
-            tableName: "user";
+            tableName: "users";
             dataType: "date";
             columnType: "PgTimestamp";
             data: Date;
@@ -91,25 +91,19 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
     };
     dialect: "pg";
 }>;
+declare const usersRelations: drizzle_orm.Relations<"users", {
+    profile: drizzle_orm.One<"profiles", false>;
+    userMatchesAsFirstUser: drizzle_orm.Many<"userMatches">;
+    userMatchesAsSecondUser: drizzle_orm.Many<"userMatches">;
+    messages: drizzle_orm.Many<"messages">;
+}>;
 declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
-    name: "profile";
+    name: "profiles";
     schema: undefined;
     columns: {
-        id: drizzle_orm_pg_core.PgColumn<{
-            name: "id";
-            tableName: "profile";
-            dataType: "string";
-            columnType: "PgText";
-            data: string;
-            driverParam: string;
-            notNull: true;
-            hasDefault: true;
-            enumValues: [string, ...string[]];
-            baseColumn: never;
-        }, {}, {}>;
         name: drizzle_orm_pg_core.PgColumn<{
             name: "name";
-            tableName: "profile";
+            tableName: "profiles";
             dataType: "string";
             columnType: "PgVarchar";
             data: string;
@@ -121,7 +115,7 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         userId: drizzle_orm_pg_core.PgColumn<{
             name: "userId";
-            tableName: "profile";
+            tableName: "profiles";
             dataType: "string";
             columnType: "PgText";
             data: string;
@@ -133,7 +127,7 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         faculty: drizzle_orm_pg_core.PgColumn<{
             name: "faculty";
-            tableName: "profile";
+            tableName: "profiles";
             dataType: "string";
             columnType: "PgEnumColumn";
             data: "FITB" | "FMIPA" | "FSRD" | "FTMD" | "FTTM" | "FTSL" | "FTI" | "SAPPK" | "SBM" | "SF" | "SITH" | "STEI";
@@ -145,7 +139,7 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         gender: drizzle_orm_pg_core.PgColumn<{
             name: "gender";
-            tableName: "profile";
+            tableName: "profiles";
             dataType: "string";
             columnType: "PgEnumColumn";
             data: "male" | "female";
@@ -157,7 +151,7 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         campus: drizzle_orm_pg_core.PgColumn<{
             name: "campus";
-            tableName: "profile";
+            tableName: "profiles";
             dataType: "string";
             columnType: "PgEnumColumn";
             data: "Ganesha" | "Jatinangor" | "Cirebon";
@@ -169,7 +163,7 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         updatedAt: drizzle_orm_pg_core.PgColumn<{
             name: "updatedAt";
-            tableName: "profile";
+            tableName: "profiles";
             dataType: "date";
             columnType: "PgTimestamp";
             data: Date;
@@ -181,7 +175,7 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         profileImage: drizzle_orm_pg_core.PgColumn<{
             name: "profileImage";
-            tableName: "profile";
+            tableName: "profiles";
             dataType: "string";
             columnType: "PgText";
             data: string;
@@ -194,17 +188,148 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
     };
     dialect: "pg";
 }>;
-declare const usersRelations: drizzle_orm.Relations<"user", {
-    profile: drizzle_orm.One<"profile", false>;
+declare const profilesRelations: drizzle_orm.Relations<"profiles", {
+    users: drizzle_orm.One<"users", true>;
 }>;
-declare const profilesRelations: drizzle_orm.Relations<"profile", {
-    users: drizzle_orm.One<"user", true>;
+declare const userMatches: drizzle_orm_pg_core.PgTableWithColumns<{
+    name: "userMatches";
+    schema: undefined;
+    columns: {
+        id: drizzle_orm_pg_core.PgColumn<{
+            name: "id";
+            tableName: "userMatches";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        firstUserId: drizzle_orm_pg_core.PgColumn<{
+            name: "firstUserId";
+            tableName: "userMatches";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        secondUserId: drizzle_orm_pg_core.PgColumn<{
+            name: "secondUserId";
+            tableName: "userMatches";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        createdAt: drizzle_orm_pg_core.PgColumn<{
+            name: "createdAt";
+            tableName: "userMatches";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+    };
+    dialect: "pg";
+}>;
+declare const userMatchesRelations: drizzle_orm.Relations<"userMatches", {
+    firstUser: drizzle_orm.One<"users", true>;
+    secondUser: drizzle_orm.One<"users", true>;
+    messages: drizzle_orm.Many<"messages">;
+}>;
+declare const messages: drizzle_orm_pg_core.PgTableWithColumns<{
+    name: "messages";
+    schema: undefined;
+    columns: {
+        id: drizzle_orm_pg_core.PgColumn<{
+            name: "id";
+            tableName: "messages";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        senderId: drizzle_orm_pg_core.PgColumn<{
+            name: "senderId";
+            tableName: "messages";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        receiverId: drizzle_orm_pg_core.PgColumn<{
+            name: "receiverId";
+            tableName: "messages";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        createdAt: drizzle_orm_pg_core.PgColumn<{
+            name: "createdAt";
+            tableName: "messages";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+        userMatchId: drizzle_orm_pg_core.PgColumn<{
+            name: "userMatchId";
+            tableName: "messages";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+    };
+    dialect: "pg";
+}>;
+declare const messagesRelations: drizzle_orm.Relations<"messages", {
+    senderId: drizzle_orm.One<"users", true>;
+    receiverId: drizzle_orm.One<"users", true>;
+    userMatch: drizzle_orm.One<"userMatches", true>;
 }>;
 type User = typeof users.$inferSelect;
 type Profile = typeof profiles.$inferSelect;
+type UserMatch = typeof userMatches.$inferSelect;
+type Message = typeof messages.$inferSelect;
 type UserRole = (typeof roleEnum.enumValues)[number];
 type UserFaculty = (typeof facultyEnum.enumValues)[number];
 type UserGender = (typeof genderEnum.enumValues)[number];
 type UserCampus = (typeof campusEnum.enumValues)[number];
 
-export { type Profile, type User, type UserCampus, type UserFaculty, type UserGender, type UserRole, campusEnum, createTable, facultyEnum, genderEnum, profiles, profilesRelations, roleEnum, users, usersRelations };
+export { type Message, type Profile, type User, type UserCampus, type UserFaculty, type UserGender, type UserMatch, type UserRole, campusEnum, createTable, facultyEnum, genderEnum, messages, messagesRelations, profiles, profilesRelations, roleEnum, userMatches, userMatchesRelations, users, usersRelations };
