@@ -1,6 +1,7 @@
 import { createId } from '@paralleldrive/cuid2';
 import { relations, sql } from 'drizzle-orm';
 import {
+  date,
   index,
   integer,
   pgEnum,
@@ -8,7 +9,9 @@ import {
   primaryKey,
   serial,
   text,
+  time,
   timestamp,
+  unique,
   varchar,
 } from 'drizzle-orm/pg-core';
 
@@ -45,7 +48,26 @@ export const campusEnum = pgEnum('campus', [
   'Cirebon',
 ]);
 
-export const assingmentEnum = pgEnum('assignment', ['daily', 'side']);
+export const assignmentTypeEnum = pgEnum('assignmentType', ['daily', 'side']);
+
+export const presenceTypeEnum = pgEnum('presenceType', [
+  'Hadir',
+  'Izin/Sakit',
+  'Alpha',
+]);
+
+export const eventDayEnum = pgEnum('day', [
+  'Day 1',
+  'Day 2',
+  'Day 3',
+  'Day 4',
+  'Day 5',
+]);
+
+export const presenceEventEnum = pgEnum('presenceEvent', [
+  'Opening',
+  'Closing',
+]);
 
 export const users = createTable(
   'users',
@@ -195,7 +217,7 @@ export const assignments = createTable('assignments', {
   files: varchar('files', { length: 255 })
     .array()
     .default(sql`ARRAY[]::varchar[]`),
-  assignmentType: assingmentEnum('assignment').notNull(),
+  assignmentType: assignmentTypeEnum('assignmentType').notNull(),
   point: integer('point'),
   createdAt: timestamp('createdAt', {
     mode: 'date',
@@ -214,7 +236,7 @@ export const assignmentSubmissions = createTable(
     assignmentId: text('assignmentId')
       .notNull()
       .references(() => assignments.id, { onDelete: 'cascade' }),
-    userNim: varchar('userNim', { length: 255 })
+    userNim: varchar('userNim', { length: 100 })
       .notNull()
       .references(() => users.nim, {
         onDelete: 'cascade',
@@ -236,6 +258,93 @@ export const assignmentSubmissions = createTable(
     userIdIdx: index('submission_userId_idx').on(submission.userNim),
   }),
 );
+
+export const assignmentSubmissionsRelations = relations(
+  assignmentSubmissions,
+  ({ one }) => ({
+    assignment: one(assignments, {
+      fields: [assignmentSubmissions.assignmentId],
+      references: [assignments.id],
+    }),
+    user: one(users, {
+      fields: [assignmentSubmissions.userNim],
+      references: [users.nim],
+    }),
+  }),
+);
+
+export const events = createTable(
+  'event',
+  {
+    id: text('id').primaryKey().$defaultFn(createId),
+    day: eventDayEnum('day').notNull(),
+    eventDate: date('eventDate', {
+      mode: 'date',
+    }).notNull(),
+    openingOpenPresenceTime: time('openingOpenPresenceTime').notNull(), // waktu buka absen untuk Opening Day
+    openingClosePresenceTime: time('openingClosePresenceTime').notNull(), // waktu tutup absen untuk Opening Day
+    closingOpenPresenceTime: time('closingOpenPresenceTime').notNull(), // waktu buka absen untuk Closing Day
+    closingClosePresenceTime: time('closingClosePresenceTime').notNull(), // waktu tutup absen untuk Closing Day
+    createdAt: timestamp('createdAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
+  },
+  (e) => ({
+    uniqueDayConstraint: unique().on(e.day),
+  }),
+);
+
+export const eventsRelations = relations(events, ({ many }) => ({
+  eventPresences: many(eventPresences),
+}));
+
+export const eventPresences = createTable(
+  'eventPresence',
+  {
+    id: text('id').primaryKey().$defaultFn(createId),
+    eventId: text('eventId')
+      .notNull()
+      .references(() => events.id),
+    userNim: varchar('userNim', { length: 255 })
+      .notNull()
+      .references(() => users.nim),
+    presenceType: presenceTypeEnum('presenceType').notNull(),
+    presenceEvent: presenceEventEnum('presenceEvent').notNull(),
+    createdAt: timestamp('createdAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
+  },
+  (presence) => ({
+    eventIdIdx: index('presence_eventId_idx').on(presence.eventId),
+    userIdIdx: index('presence_userId_idx').on(presence.userNim),
+    uniquePresenceConstraint: unique().on(
+      presence.eventId,
+      presence.presenceEvent,
+      presence.userNim,
+    ),
+  }),
+);
+
+export const eventPresencesRelations = relations(eventPresences, ({ one }) => ({
+  event: one(events, {
+    fields: [eventPresences.eventId],
+    references: [events.id],
+  }),
+  user: one(users, {
+    fields: [eventPresences.userNim],
+    references: [users.nim],
+  }),
+}));
 
 export type User = typeof users.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
