@@ -19,6 +19,7 @@ import {
  * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
  */
 export const createTable = pgTableCreator((name) => `${name}`);
+
 export const facultyEnum = pgEnum('faculty', [
   'FITB',
   'FMIPA',
@@ -43,6 +44,8 @@ export const campusEnum = pgEnum('campus', [
   'Jatinangor',
   'Cirebon',
 ]);
+
+export const assingmentEnum = pgEnum('assignment', ['daily', 'side']);
 
 export const users = createTable(
   'users',
@@ -94,6 +97,8 @@ export const profiles = createTable(
       .notNull()
       .defaultNow(),
     profileImage: text('profileImage'),
+    groupNumber: integer('groupNumber').notNull(),
+    point: integer('point'),
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
@@ -121,6 +126,12 @@ export const userMatches = createTable('userMatches', {
   })
     .notNull()
     .defaultNow(),
+  endedAt: timestamp('endedAt', {
+    mode: 'date',
+    withTimezone: true,
+  })
+    .default(sql`null`)
+    .$type<Date | null>(),
 });
 
 export const userMatchesRelations = relations(userMatches, ({ many, one }) => ({
@@ -168,6 +179,64 @@ export const messagesRelations = relations(messages, ({ many, one }) => ({
     references: [userMatches.id],
   }),
 }));
+
+export const assignments = createTable('assignments', {
+  id: text('id').primaryKey().$defaultFn(createId),
+  title: varchar('title', { length: 255 }).notNull(),
+  description: text('description').notNull(),
+  startTime: timestamp('startTime', {
+    mode: 'date',
+    withTimezone: true,
+  }),
+  deadline: timestamp('deadline', {
+    mode: 'date',
+    withTimezone: true,
+  }).notNull(),
+  files: varchar('files', { length: 255 })
+    .array()
+    .default(sql`ARRAY[]::varchar[]`),
+  assignmentType: assingmentEnum('assignment').notNull(),
+  point: integer('point'),
+  createdAt: timestamp('createdAt', {
+    mode: 'date',
+    withTimezone: true,
+  }).notNull(),
+  updatedAt: timestamp('updatedAt', {
+    mode: 'date',
+    withTimezone: true,
+  }).notNull(),
+});
+
+export const assignmentSubmissions = createTable(
+  'assignmentSubmissions',
+  {
+    id: text('id').primaryKey().$defaultFn(createId),
+    assignmentId: text('assignmentId')
+      .notNull()
+      .references(() => assignments.id, { onDelete: 'cascade' }),
+    userNim: varchar('userNim', { length: 255 })
+      .notNull()
+      .references(() => users.nim, {
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
+      }),
+    files: varchar('files', { length: 255 })
+      .array()
+      .default(sql`ARRAY[]::varchar[]`),
+    createdAt: timestamp('createdAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
+  },
+  (submission) => ({
+    userIdIdx: index('submission_userId_idx').on(submission.userNim),
+  }),
+);
+
 export type User = typeof users.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
 export type UserMatch = typeof userMatches.$inferSelect;
