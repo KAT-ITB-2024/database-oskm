@@ -1,11 +1,11 @@
 {
-  "id": "7c55a3a0-be83-4468-9679-8b6b65241d80",
+  "id": "3a345b7f-3619-4874-b4f5-9819f373e3d4",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.profile": {
-      "name": "profile",
+    "public.assignmentSubmissions": {
+      "name": "assignmentSubmissions",
       "schema": "",
       "columns": {
         "id": {
@@ -14,6 +14,541 @@
           "primaryKey": true,
           "notNull": true
         },
+        "assignmentId": {
+          "name": "assignmentId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userNim": {
+          "name": "userNim",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "files": {
+          "name": "files",
+          "type": "varchar(255)[]",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "ARRAY[]::varchar[]"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "submission_userId_idx": {
+          "name": "submission_userId_idx",
+          "columns": [
+            {
+              "expression": "userNim",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "assignmentSubmissions_assignmentId_assignments_id_fk": {
+          "name": "assignmentSubmissions_assignmentId_assignments_id_fk",
+          "tableFrom": "assignmentSubmissions",
+          "tableTo": "assignments",
+          "columnsFrom": [
+            "assignmentId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "assignmentSubmissions_userNim_users_nim_fk": {
+          "name": "assignmentSubmissions_userNim_users_nim_fk",
+          "tableFrom": "assignmentSubmissions",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userNim"
+          ],
+          "columnsTo": [
+            "nim"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.assignments": {
+      "name": "assignments",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "startTime": {
+          "name": "startTime",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "deadline": {
+          "name": "deadline",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "files": {
+          "name": "files",
+          "type": "varchar(255)[]",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "ARRAY[]::varchar[]"
+        },
+        "assignmentType": {
+          "name": "assignmentType",
+          "type": "assignmentType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "point": {
+          "name": "point",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.character": {
+      "name": "character",
+      "schema": "",
+      "columns": {
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "characterImage": {
+          "name": "characterImage",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.eventAssignments": {
+      "name": "eventAssignments",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "eventId": {
+          "name": "eventId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "assignmentId": {
+          "name": "assignmentId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "eventAssignments_eventId_event_id_fk": {
+          "name": "eventAssignments_eventId_event_id_fk",
+          "tableFrom": "eventAssignments",
+          "tableTo": "event",
+          "columnsFrom": [
+            "eventId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "eventAssignments_assignmentId_assignments_id_fk": {
+          "name": "eventAssignments_assignmentId_assignments_id_fk",
+          "tableFrom": "eventAssignments",
+          "tableTo": "assignments",
+          "columnsFrom": [
+            "assignmentId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.eventPresence": {
+      "name": "eventPresence",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "eventId": {
+          "name": "eventId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userNim": {
+          "name": "userNim",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "presenceType": {
+          "name": "presenceType",
+          "type": "presenceType",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "presenceEvent": {
+          "name": "presenceEvent",
+          "type": "presenceEvent",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "presence_eventId_idx": {
+          "name": "presence_eventId_idx",
+          "columns": [
+            {
+              "expression": "eventId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "presence_userId_idx": {
+          "name": "presence_userId_idx",
+          "columns": [
+            {
+              "expression": "userNim",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "eventPresence_eventId_event_id_fk": {
+          "name": "eventPresence_eventId_event_id_fk",
+          "tableFrom": "eventPresence",
+          "tableTo": "event",
+          "columnsFrom": [
+            "eventId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "eventPresence_userNim_users_nim_fk": {
+          "name": "eventPresence_userNim_users_nim_fk",
+          "tableFrom": "eventPresence",
+          "tableTo": "users",
+          "columnsFrom": [
+            "userNim"
+          ],
+          "columnsTo": [
+            "nim"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "eventPresence_eventId_presenceEvent_userNim_unique": {
+          "name": "eventPresence_eventId_presenceEvent_userNim_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "eventId",
+            "presenceEvent",
+            "userNim"
+          ]
+        }
+      }
+    },
+    "public.event": {
+      "name": "event",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "day": {
+          "name": "day",
+          "type": "day",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "eventDate": {
+          "name": "eventDate",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "openingOpenPresenceTime": {
+          "name": "openingOpenPresenceTime",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "openingClosePresenceTime": {
+          "name": "openingClosePresenceTime",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "closingOpenPresenceTime": {
+          "name": "closingOpenPresenceTime",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "closingClosePresenceTime": {
+          "name": "closingClosePresenceTime",
+          "type": "time",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lore": {
+          "name": "lore",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "characterName": {
+          "name": "characterName",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "event_characterName_character_name_fk": {
+          "name": "event_characterName_character_name_fk",
+          "tableFrom": "event",
+          "tableTo": "character",
+          "columnsFrom": [
+            "characterName"
+          ],
+          "columnsTo": [
+            "name"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "event_day_unique": {
+          "name": "event_day_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "day"
+          ]
+        }
+      }
+    },
+    "public.messages": {
+      "name": "messages",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "senderId": {
+          "name": "senderId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "receiverId": {
+          "name": "receiverId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "userMatchId": {
+          "name": "userMatchId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "messages_senderId_users_id_fk": {
+          "name": "messages_senderId_users_id_fk",
+          "tableFrom": "messages",
+          "tableTo": "users",
+          "columnsFrom": [
+            "senderId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "messages_receiverId_users_id_fk": {
+          "name": "messages_receiverId_users_id_fk",
+          "tableFrom": "messages",
+          "tableTo": "users",
+          "columnsFrom": [
+            "receiverId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "messages_userMatchId_userMatches_id_fk": {
+          "name": "messages_userMatchId_userMatches_id_fk",
+          "tableFrom": "messages",
+          "tableTo": "userMatches",
+          "columnsFrom": [
+            "userMatchId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.profiles": {
+      "name": "profiles",
+      "schema": "",
+      "columns": {
         "name": {
           "name": "name",
           "type": "varchar(255)",
@@ -28,7 +563,7 @@
         },
         "faculty": {
           "name": "faculty",
-          "type": "fakultas",
+          "type": "faculty",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
@@ -59,11 +594,23 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false
+        },
+        "groupNumber": {
+          "name": "groupNumber",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "point": {
+          "name": "point",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
         }
       },
       "indexes": {
-        "profile_userId_index": {
-          "name": "profile_userId_index",
+        "profiles_userId_index": {
+          "name": "profiles_userId_index",
           "columns": [
             {
               "expression": "userId",
@@ -76,28 +623,132 @@
           "concurrently": false,
           "method": "btree",
           "with": {}
+        },
+        "profiles_point_index": {
+          "name": "profiles_point_index",
+          "columns": [
+            {
+              "expression": "point",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
         }
       },
       "foreignKeys": {
-        "profile_userId_user_id_fk": {
-          "name": "profile_userId_user_id_fk",
-          "tableFrom": "profile",
-          "tableTo": "user",
+        "profiles_userId_users_id_fk": {
+          "name": "profiles_userId_users_id_fk",
+          "tableFrom": "profiles",
+          "tableTo": "users",
           "columnsFrom": [
             "userId"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.user": {
-      "name": "user",
+    "public.userMatches": {
+      "name": "userMatches",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "firstUserId": {
+          "name": "firstUserId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "secondUserId": {
+          "name": "secondUserId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "topic": {
+          "name": "topic",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "isRevealed": {
+          "name": "isRevealed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "false"
+        },
+        "isAnonymous": {
+          "name": "isAnonymous",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "false"
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "endedAt": {
+          "name": "endedAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "null"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "userMatches_firstUserId_users_id_fk": {
+          "name": "userMatches_firstUserId_users_id_fk",
+          "tableFrom": "userMatches",
+          "tableTo": "users",
+          "columnsFrom": [
+            "firstUserId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "userMatches_secondUserId_users_id_fk": {
+          "name": "userMatches_secondUserId_users_id_fk",
+          "tableFrom": "userMatches",
+          "tableTo": "users",
+          "columnsFrom": [
+            "secondUserId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.users": {
+      "name": "users",
       "schema": "",
       "columns": {
         "id": {
@@ -123,7 +774,8 @@
           "name": "password",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true
+          "notNull": true,
+          "default": "now()"
         },
         "createdAt": {
           "name": "createdAt",
@@ -141,8 +793,8 @@
         }
       },
       "indexes": {
-        "user_id_index": {
-          "name": "user_id_index",
+        "users_id_index": {
+          "name": "users_id_index",
           "columns": [
             {
               "expression": "id",
@@ -156,8 +808,8 @@
           "method": "btree",
           "with": {}
         },
-        "user_nim_index": {
-          "name": "user_nim_index",
+        "users_nim_index": {
+          "name": "users_nim_index",
           "columns": [
             {
               "expression": "nim",
@@ -175,8 +827,8 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "user_nim_unique": {
-          "name": "user_nim_unique",
+        "users_nim_unique": {
+          "name": "users_nim_unique",
           "nullsNotDistinct": false,
           "columns": [
             "nim"
@@ -186,6 +838,14 @@
     }
   },
   "enums": {
+    "public.assignmentType": {
+      "name": "assignmentType",
+      "schema": "public",
+      "values": [
+        "daily",
+        "side"
+      ]
+    },
     "public.campus": {
       "name": "campus",
       "schema": "public",
@@ -195,8 +855,19 @@
         "Cirebon"
       ]
     },
-    "public.fakultas": {
-      "name": "fakultas",
+    "public.day": {
+      "name": "day",
+      "schema": "public",
+      "values": [
+        "Day 1",
+        "Day 2",
+        "Day 3",
+        "Day 4",
+        "Day 5"
+      ]
+    },
+    "public.faculty": {
+      "name": "faculty",
       "schema": "public",
       "values": [
         "FITB",
@@ -219,6 +890,23 @@
       "values": [
         "male",
         "female"
+      ]
+    },
+    "public.presenceEvent": {
+      "name": "presenceEvent",
+      "schema": "public",
+      "values": [
+        "Opening",
+        "Closing"
+      ]
+    },
+    "public.presenceType": {
+      "name": "presenceType",
+      "schema": "public",
+      "values": [
+        "Hadir",
+        "Izin/Sakit",
+        "Alpha"
       ]
     },
     "public.role": {

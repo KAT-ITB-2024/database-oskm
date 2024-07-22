@@ -8,6 +8,9 @@
   "type": "module",
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
+    "bcrypt": "^5.1.1",
+    "csv-parser": "^3.0.0",
+    "drizzle-dbml-generator": "^0.8.0",
     "drizzle-orm": "^0.31.2",
     "postgres": "^3.4.4",
     "tsup": "^8.1.0",
@@ -15,9 +18,13 @@
     "typescript": "^5.5.2"
   },
   "devDependencies": {
-    "drizzle-kit": "^0.22.7"
+    "@types/bcrypt": "^5.0.2",
+    "drizzle-kit": "^0.22.7",
+    "ts-node": "^10.9.2"
   },
   "scripts": {
-    "build": "tsup src/schema.ts --dts --format cjs,esm --out-dir dist"
+    "build": "tsup src/schema.ts --dts --format cjs,esm --out-dir dist",
+    "view": "node --experimental-specifier-resolution=node --loader ts-node/esm src/dbml.ts",
+    "generate": "drizzle-kit generate"
   }
 }

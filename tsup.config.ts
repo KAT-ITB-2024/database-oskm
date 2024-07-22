@@ -6,6 +6,6 @@ export default defineConfig({
     dts: true,
     clean: true,
     minify: true,
-    entry: ['src/schema.ts'],
+    entry: ['src/schema.ts', 'scripts/adduser.ts'],
     format: ['cjs', "esm"],
 })
