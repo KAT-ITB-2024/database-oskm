@@ -83,7 +83,8 @@ export const usersRelations = relations(users, ({ many, one }) => ({
   profile: one(profiles),
   userMatchesAsFirstUser: many(userMatches, { relationName: 'firstUser' }),
   userMatchesAsSecondUser: many(userMatches, { relationName: 'secondUser' }),
-  messages: many(messages),
+  messages: many(messages, { relationName: 'sender' }),
+  messagesAsReceiver: many(messages, { relationName: 'receiver' }),
 }));
 
 // Profiles
@@ -168,6 +169,10 @@ export const messages = createTable('messages', {
   receiverId: text('receiverId')
     .notNull()
     .references(() => users.id),
+  content: text('content').notNull(),
+  isRead: boolean('isRead')
+    .notNull()
+    .default(sql`false`),
   createdAt: timestamp('createdAt', { mode: 'date', withTimezone: true })
     .notNull()
     .defaultNow(),
@@ -177,10 +182,15 @@ export const messages = createTable('messages', {
 });
 
 export const messagesRelations = relations(messages, ({ many, one }) => ({
-  senderId: one(users, { fields: [messages.senderId], references: [users.id] }),
+  senderId: one(users, {
+    fields: [messages.senderId],
+    references: [users.id],
+    relationName: 'sender',
+  }),
   receiverId: one(users, {
     fields: [messages.receiverId],
     references: [users.id],
+    relationName: 'receiver',
   }),
   userMatch: one(userMatches, {
     fields: [messages.userMatchId],

@@ -95,6 +95,7 @@ declare const usersRelations: drizzle_orm.Relations<"users", {
     userMatchesAsFirstUser: drizzle_orm.Many<"userMatches">;
     userMatchesAsSecondUser: drizzle_orm.Many<"userMatches">;
     messages: drizzle_orm.Many<"messages">;
+    messagesAsReceiver: drizzle_orm.Many<"messages">;
 }>;
 declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
     name: "profiles";
@@ -360,6 +361,30 @@ declare const messages: drizzle_orm_pg_core.PgTableWithColumns<{
             notNull: true;
             hasDefault: false;
             enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        content: drizzle_orm_pg_core.PgColumn<{
+            name: "content";
+            tableName: "messages";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        isRead: drizzle_orm_pg_core.PgColumn<{
+            name: "isRead";
+            tableName: "messages";
+            dataType: "boolean";
+            columnType: "PgBoolean";
+            data: boolean;
+            driverParam: boolean;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
         createdAt: drizzle_orm_pg_core.PgColumn<{
