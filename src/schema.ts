@@ -131,6 +131,9 @@ export const userMatches = createTable('userMatches', {
   isRevealed: boolean('isRevealed')
     .notNull()
     .default(sql`false`),
+
+  // is anonyomous -> dia mau profile dia keliatan ato ga
+
   isAnonymous: boolean('isAnonymous')
     .notNull()
     .default(sql`false`),
@@ -146,10 +149,12 @@ export const userMatchesRelations = relations(userMatches, ({ many, one }) => ({
   firstUser: one(users, {
     fields: [userMatches.firstUserId],
     references: [users.id],
+    relationName: 'firstUser',
   }),
   secondUser: one(users, {
     fields: [userMatches.secondUserId],
     references: [users.id],
+    relationName: 'secondUser',
   }),
   messages: many(messages),
 }));
