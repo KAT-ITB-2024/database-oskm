@@ -30,11 +30,11 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
             name: "nim";
             tableName: "users";
             dataType: "string";
-            columnType: "PgVarchar";
+            columnType: "PgText";
             data: string;
             driverParam: string;
             notNull: true;
-            hasDefault: false;
+            hasDefault: true;
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;

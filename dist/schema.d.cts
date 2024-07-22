@@ -54,12 +54,13 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
             name: "password";
             tableName: "users";
             dataType: "string";
-            columnType: "PgVarchar";
-            data: string;
+            columnType: "PgEnumColumn";
+            data: "Peserta" | "Mentor" | "Mamet";
             driverParam: string;
             notNull: true;
+            notNull: true;
             hasDefault: false;
-            enumValues: [string, ...string[]];
+            enumValues: ["Peserta", "Mentor", "Mamet"];
             baseColumn: never;
         }, {}, {}>;
         createdAt: drizzle_orm_pg_core.PgColumn<{
@@ -167,6 +168,7 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
+            notNull: true;
             hasDefault: true;
             enumValues: undefined;
             baseColumn: never;
@@ -257,11 +259,11 @@ declare const userMatches: drizzle_orm_pg_core.PgTableWithColumns<{
             name: "topic";
             tableName: "userMatches";
             dataType: "string";
-            columnType: "PgVarchar";
+            columnType: "PgText";
             data: string;
             driverParam: string;
             notNull: true;
-            hasDefault: false;
+            hasDefault: true;
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
@@ -378,6 +380,7 @@ declare const messages: drizzle_orm_pg_core.PgTableWithColumns<{
             tableName: "messages";
             dataType: "string";
             columnType: "PgText";
+            columnType: "PgText";
             data: string;
             driverParam: string;
             notNull: true;
@@ -413,24 +416,25 @@ declare const assignments: drizzle_orm_pg_core.PgTableWithColumns<{
             name: "title";
             tableName: "assignments";
             dataType: "string";
-            columnType: "PgVarchar";
-            data: string;
+            columnType: "PgEnumColumn";
+            data: "FITB" | "FMIPA" | "FSRD" | "FTMD" | "FTTM" | "FTSL" | "FTI" | "SAPPK" | "SBM" | "SF" | "SITH" | "STEI";
             driverParam: string;
             notNull: true;
             hasDefault: false;
-            enumValues: [string, ...string[]];
+            enumValues: ["FITB", "FMIPA", "FSRD", "FTMD", "FTTM", "FTSL", "FTI", "SAPPK", "SBM", "SF", "SITH", "STEI"];
             baseColumn: never;
         }, {}, {}>;
         description: drizzle_orm_pg_core.PgColumn<{
             name: "description";
             tableName: "assignments";
             dataType: "string";
-            columnType: "PgText";
-            data: string;
+            columnType: "PgEnumColumn";
+            data: "male" | "female";
             driverParam: string;
             notNull: true;
+            notNull: true;
             hasDefault: false;
-            enumValues: [string, ...string[]];
+            enumValues: ["male", "female"];
             baseColumn: never;
         }, {}, {}>;
         startTime: drizzle_orm_pg_core.PgColumn<{
@@ -440,7 +444,7 @@ declare const assignments: drizzle_orm_pg_core.PgTableWithColumns<{
             columnType: "PgTimestamp";
             data: Date;
             driverParam: string;
-            notNull: false;
+            notNull: true;
             hasDefault: false;
             enumValues: undefined;
             baseColumn: never;

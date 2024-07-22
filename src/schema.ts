@@ -324,7 +324,10 @@ export const eventPresences = createTable(
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,
-    }).notNull(),
+    })
+      .notNull()
+      .defaultNow(),
+    profileImage: text("profileImage"),
   },
   (presence) => ({
     eventIdIdx: index('presence_eventId_idx').on(presence.eventId),
