@@ -81,8 +81,8 @@ export const users = createTable(
 
 export const usersRelations = relations(users, ({ many, one }) => ({
   profile: one(profiles),
-  userMatchesAsFirstUser: many(userMatches),
-  userMatchesAsSecondUser: many(userMatches),
+  userMatchesAsFirstUser: many(userMatches, { relationName: 'firstUser' }),
+  userMatchesAsSecondUser: many(userMatches, { relationName: 'secondUser' }),
   messages: many(messages),
 }));
 
