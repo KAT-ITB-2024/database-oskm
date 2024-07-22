@@ -31,6 +31,8 @@ export const facultyEnum = pgEnum('faculty', [
   'STEI',
 ]);
 
+export const lembagaEnum = pgEnum('lembaga', ['HMJ', 'Unit']);
+
 export const roleEnum = pgEnum('role', ['Peserta', 'Mentor', 'Mamet']);
 
 export const genderEnum = pgEnum('gender', ['male', 'female']);
@@ -41,7 +43,7 @@ export const campusEnum = pgEnum('campus', [
   'Cirebon',
 ]);
 
-export const assignmentTypeEnum = pgEnum('assignmentType', ['daily', 'side']);
+export const assignmentTypeEnum = pgEnum('assignmentType', ['Daily', 'Side']);
 
 export const presenceTypeEnum = pgEnum('presenceType', [
   'Hadir',
@@ -49,13 +51,7 @@ export const presenceTypeEnum = pgEnum('presenceType', [
   'Alpha',
 ]);
 
-export const eventDayEnum = pgEnum('day', [
-  'Day 1',
-  'Day 2',
-  'Day 3',
-  'Day 4',
-  'Day 5',
-]);
+export const eventDayEnum = pgEnum('day', ['Day 1', 'Day 2', 'Day 3', 'Day 4']);
 
 export const presenceEventEnum = pgEnum('presenceEvent', [
   'Opening',
@@ -269,7 +265,6 @@ export const events = createTable(
   {
     id: text('id').primaryKey().$defaultFn(createId),
     day: eventDayEnum('day').notNull(),
-    reward: integer('rewatd').notNull().default(0),
     eventDate: date('eventDate', { mode: 'date' }).notNull(),
     openingOpenPresenceTime: time('openingOpenPresenceTime').notNull(),
     openingClosePresenceTime: time('openingClosePresenceTime').notNull(),
@@ -328,7 +323,7 @@ export const eventPresences = createTable(
     })
       .notNull()
       .defaultNow(),
-    profileImage: text("profileImage"),
+    profileImage: text('profileImage'),
   },
   (presence) => ({
     eventIdIdx: index('presence_eventId_idx').on(presence.eventId),

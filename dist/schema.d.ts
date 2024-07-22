@@ -3,12 +3,13 @@ import * as drizzle_orm_pg_core from 'drizzle-orm/pg-core';
 
 declare const createTable: drizzle_orm_pg_core.PgTableFn<undefined>;
 declare const facultyEnum: drizzle_orm_pg_core.PgEnum<["FITB", "FMIPA", "FSRD", "FTMD", "FTTM", "FTSL", "FTI", "SAPPK", "SBM", "SF", "SITH", "STEI"]>;
+declare const lembagaEnum: drizzle_orm_pg_core.PgEnum<["HMJ", "Unit"]>;
 declare const roleEnum: drizzle_orm_pg_core.PgEnum<["Peserta", "Mentor", "Mamet"]>;
 declare const genderEnum: drizzle_orm_pg_core.PgEnum<["male", "female"]>;
 declare const campusEnum: drizzle_orm_pg_core.PgEnum<["Ganesha", "Jatinangor", "Cirebon"]>;
-declare const assignmentTypeEnum: drizzle_orm_pg_core.PgEnum<["daily", "side"]>;
+declare const assignmentTypeEnum: drizzle_orm_pg_core.PgEnum<["Daily", "Side"]>;
 declare const presenceTypeEnum: drizzle_orm_pg_core.PgEnum<["Hadir", "Izin/Sakit", "Alpha"]>;
-declare const eventDayEnum: drizzle_orm_pg_core.PgEnum<["Day 1", "Day 2", "Day 3", "Day 4", "Day 5"]>;
+declare const eventDayEnum: drizzle_orm_pg_core.PgEnum<["Day 1", "Day 2", "Day 3", "Day 4"]>;
 declare const presenceEventEnum: drizzle_orm_pg_core.PgEnum<["Opening", "Closing"]>;
 declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
     name: "users";
@@ -485,11 +486,11 @@ declare const assignments: drizzle_orm_pg_core.PgTableWithColumns<{
             tableName: "assignments";
             dataType: "string";
             columnType: "PgEnumColumn";
-            data: "daily" | "side";
+            data: "Daily" | "Side";
             driverParam: string;
             notNull: true;
             hasDefault: false;
-            enumValues: ["daily", "side"];
+            enumValues: ["Daily", "Side"];
             baseColumn: never;
         }, {}, {}>;
         point: drizzle_orm_pg_core.PgColumn<{
@@ -677,23 +678,11 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
             tableName: "event";
             dataType: "string";
             columnType: "PgEnumColumn";
-            data: "Day 1" | "Day 2" | "Day 3" | "Day 4" | "Day 5";
+            data: "Day 1" | "Day 2" | "Day 3" | "Day 4";
             driverParam: string;
             notNull: true;
             hasDefault: false;
-            enumValues: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5"];
-            baseColumn: never;
-        }, {}, {}>;
-        reward: drizzle_orm_pg_core.PgColumn<{
-            name: "rewatd";
-            tableName: "event";
-            dataType: "number";
-            columnType: "PgInteger";
-            data: number;
-            driverParam: string | number;
-            notNull: true;
-            hasDefault: true;
-            enumValues: undefined;
+            enumValues: ["Day 1", "Day 2", "Day 3", "Day 4"];
             baseColumn: never;
         }, {}, {}>;
         eventDate: drizzle_orm_pg_core.PgColumn<{
@@ -983,4 +972,4 @@ type UserFaculty = (typeof facultyEnum.enumValues)[number];
 type UserGender = (typeof genderEnum.enumValues)[number];
 type UserCampus = (typeof campusEnum.enumValues)[number];
 
-export { type Assignment, type AssignmentSubmission, type Character, type Event, type EventAssignment, type EventPresence, type Message, type Profile, type User, type UserCampus, type UserFaculty, type UserGender, type UserMatch, type UserRole, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, campusEnum, character, createTable, eventAssignments, eventAssignmentsRelations, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharacterRelations, eventsRelations, facultyEnum, genderEnum, messages, messagesRelations, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, roleEnum, userMatches, userMatchesRelations, users, usersRelations };
+export { type Assignment, type AssignmentSubmission, type Character, type Event, type EventAssignment, type EventPresence, type Message, type Profile, type User, type UserCampus, type UserFaculty, type UserGender, type UserMatch, type UserRole, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, campusEnum, character, createTable, eventAssignments, eventAssignmentsRelations, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharacterRelations, eventsRelations, facultyEnum, genderEnum, lembagaEnum, messages, messagesRelations, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, roleEnum, userMatches, userMatchesRelations, users, usersRelations };

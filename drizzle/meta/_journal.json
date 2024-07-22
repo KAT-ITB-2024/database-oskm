@@ -15,6 +15,13 @@
       "when": 1721634111176,
       "tag": "0001_cultured_bruce_banner",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1721636964851,
+      "tag": "0002_volatile_roxanne_simpson",
+      "breakpoints": true
     }
   ]
 }
