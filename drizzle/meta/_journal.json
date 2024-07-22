@@ -8,6 +8,13 @@
       "when": 1721625293791,
       "tag": "0000_sloppy_blindfold",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1721634111176,
+      "tag": "0001_cultured_bruce_banner",
+      "breakpoints": true
     }
   ]
 }

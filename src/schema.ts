@@ -269,6 +269,7 @@ export const events = createTable(
   {
     id: text('id').primaryKey().$defaultFn(createId),
     day: eventDayEnum('day').notNull(),
+    reward: integer('rewatd').notNull().default(0),
     eventDate: date('eventDate', { mode: 'date' }).notNull(),
     openingOpenPresenceTime: time('openingOpenPresenceTime').notNull(),
     openingClosePresenceTime: time('openingClosePresenceTime').notNull(),

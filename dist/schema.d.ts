@@ -30,11 +30,11 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
             name: "nim";
             tableName: "users";
             dataType: "string";
-            columnType: "PgText";
+            columnType: "PgVarchar";
             data: string;
             driverParam: string;
             notNull: true;
-            hasDefault: true;
+            hasDefault: false;
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
@@ -684,6 +684,18 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: ["Day 1", "Day 2", "Day 3", "Day 4", "Day 5"];
             baseColumn: never;
         }, {}, {}>;
+        reward: drizzle_orm_pg_core.PgColumn<{
+            name: "rewatd";
+            tableName: "event";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
         eventDate: drizzle_orm_pg_core.PgColumn<{
             name: "eventDate";
             tableName: "event";
@@ -886,8 +898,20 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: false;
+            hasDefault: true;
             enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+        profileImage: drizzle_orm_pg_core.PgColumn<{
+            name: "profileImage";
+            tableName: "eventPresence";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
     };
