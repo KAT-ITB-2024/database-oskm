@@ -6,21 +6,14 @@ import {
   integer,
   pgEnum,
   pgTableCreator,
-  primaryKey,
-  serial,
   text,
   time,
   timestamp,
   unique,
   varchar,
+  boolean,
 } from 'drizzle-orm/pg-core';
 
-/**
- * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
- * database instance for multiple projects.
- *
- * @see https://orm.drizzle.team/docs/goodies#multi-project-schema
- */
 export const createTable = pgTableCreator((name) => `${name}`);
 
 export const facultyEnum = pgEnum('faculty', [
@@ -69,6 +62,7 @@ export const presenceEventEnum = pgEnum('presenceEvent', [
   'Closing',
 ]);
 
+// Users
 export const users = createTable(
   'users',
   {
@@ -76,16 +70,10 @@ export const users = createTable(
     nim: varchar('nim', { length: 100 }).unique().notNull(),
     role: roleEnum('role').notNull(),
     password: varchar('password', { length: 255 }).notNull(),
-    createdAt: timestamp('createdAt', {
-      mode: 'date',
-      withTimezone: true,
-    })
+    createdAt: timestamp('createdAt', { mode: 'date', withTimezone: true })
       .notNull()
       .defaultNow(),
-    updatedAt: timestamp('updatedAt', {
-      mode: 'date',
-      withTimezone: true,
-    })
+    updatedAt: timestamp('updatedAt', { mode: 'date', withTimezone: true })
       .notNull()
       .defaultNow(),
   },
@@ -102,6 +90,7 @@ export const usersRelations = relations(users, ({ many, one }) => ({
   messages: many(messages),
 }));
 
+// Profiles
 export const profiles = createTable(
   'profiles',
   {
@@ -112,10 +101,7 @@ export const profiles = createTable(
     faculty: facultyEnum('faculty').notNull(),
     gender: genderEnum('gender').notNull(),
     campus: campusEnum('campus').notNull(),
-    updatedAt: timestamp('updatedAt', {
-      mode: 'date',
-      withTimezone: true,
-    })
+    updatedAt: timestamp('updatedAt', { mode: 'date', withTimezone: true })
       .notNull()
       .defaultNow(),
     profileImage: text('profileImage'),
@@ -124,6 +110,7 @@ export const profiles = createTable(
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
+    pointIdx: index().on(profile.point),
   }),
 );
 
@@ -134,6 +121,7 @@ export const profilesRelations = relations(profiles, ({ one }) => ({
   }),
 }));
 
+// User Matches
 export const userMatches = createTable('userMatches', {
   id: text('id').primaryKey().$defaultFn(createId),
   firstUserId: text('firstUserId')
@@ -142,16 +130,18 @@ export const userMatches = createTable('userMatches', {
   secondUserId: text('secondUserId')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
-  createdAt: timestamp('createdAt', {
-    mode: 'date',
-    withTimezone: true,
-  })
+  // Change to enum later
+  topic: varchar('topic', { length: 50 }).notNull(),
+  isRevealed: boolean('isRevealed')
+    .notNull()
+    .default(sql`false`),
+  isAnonymous: boolean('isAnonymous')
+    .notNull()
+    .default(sql`false`),
+  createdAt: timestamp('createdAt', { mode: 'date', withTimezone: true })
     .notNull()
     .defaultNow(),
-  endedAt: timestamp('endedAt', {
-    mode: 'date',
-    withTimezone: true,
-  })
+  endedAt: timestamp('endedAt', { mode: 'date', withTimezone: true })
     .default(sql`null`)
     .$type<Date | null>(),
 });
@@ -168,6 +158,7 @@ export const userMatchesRelations = relations(userMatches, ({ many, one }) => ({
   messages: many(messages),
 }));
 
+// Messages
 export const messages = createTable('messages', {
   id: text('id').primaryKey().$defaultFn(createId),
   senderId: text('senderId')
@@ -176,10 +167,7 @@ export const messages = createTable('messages', {
   receiverId: text('receiverId')
     .notNull()
     .references(() => users.id),
-  createdAt: timestamp('createdAt', {
-    mode: 'date',
-    withTimezone: true,
-  })
+  createdAt: timestamp('createdAt', { mode: 'date', withTimezone: true })
     .notNull()
     .defaultNow(),
   userMatchId: text('userMatchId')
@@ -188,10 +176,7 @@ export const messages = createTable('messages', {
 });
 
 export const messagesRelations = relations(messages, ({ many, one }) => ({
-  senderId: one(users, {
-    fields: [messages.senderId],
-    references: [users.id],
-  }),
+  senderId: one(users, { fields: [messages.senderId], references: [users.id] }),
   receiverId: one(users, {
     fields: [messages.receiverId],
     references: [users.id],
@@ -202,14 +187,12 @@ export const messagesRelations = relations(messages, ({ many, one }) => ({
   }),
 }));
 
+// Assignments
 export const assignments = createTable('assignments', {
   id: text('id').primaryKey().$defaultFn(createId),
   title: varchar('title', { length: 255 }).notNull(),
   description: text('description').notNull(),
-  startTime: timestamp('startTime', {
-    mode: 'date',
-    withTimezone: true,
-  }),
+  startTime: timestamp('startTime', { mode: 'date', withTimezone: true }),
   deadline: timestamp('deadline', {
     mode: 'date',
     withTimezone: true,
@@ -229,6 +212,7 @@ export const assignments = createTable('assignments', {
   }).notNull(),
 });
 
+// Assignment Submissions
 export const assignmentSubmissions = createTable(
   'assignmentSubmissions',
   {
@@ -273,18 +257,23 @@ export const assignmentSubmissionsRelations = relations(
   }),
 );
 
+// Character
+export const character = createTable('character', {
+  name: varchar('name', { length: 255 }).notNull().primaryKey(),
+  characterImage: varchar('characterImage', { length: 255 }).notNull(),
+});
+
+// Events
 export const events = createTable(
   'event',
   {
     id: text('id').primaryKey().$defaultFn(createId),
     day: eventDayEnum('day').notNull(),
-    eventDate: date('eventDate', {
-      mode: 'date',
-    }).notNull(),
-    openingOpenPresenceTime: time('openingOpenPresenceTime').notNull(), // waktu buka absen untuk Opening Day
-    openingClosePresenceTime: time('openingClosePresenceTime').notNull(), // waktu tutup absen untuk Opening Day
-    closingOpenPresenceTime: time('closingOpenPresenceTime').notNull(), // waktu buka absen untuk Closing Day
-    closingClosePresenceTime: time('closingClosePresenceTime').notNull(), // waktu tutup absen untuk Closing Day
+    eventDate: date('eventDate', { mode: 'date' }).notNull(),
+    openingOpenPresenceTime: time('openingOpenPresenceTime').notNull(),
+    openingClosePresenceTime: time('openingClosePresenceTime').notNull(),
+    closingOpenPresenceTime: time('closingOpenPresenceTime').notNull(),
+    closingClosePresenceTime: time('closingClosePresenceTime').notNull(),
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
@@ -293,16 +282,29 @@ export const events = createTable(
       mode: 'date',
       withTimezone: true,
     }).notNull(),
+    lore: text('lore').notNull(),
+    characterName: varchar('characterName', { length: 255 })
+      .notNull()
+      .references(() => character.name),
   },
   (e) => ({
     uniqueDayConstraint: unique().on(e.day),
   }),
 );
 
-export const eventsRelations = relations(events, ({ many }) => ({
-  eventPresences: many(eventPresences),
+export const eventsCharacterRelations = relations(events, ({ one }) => ({
+  character: one(character, {
+    fields: [events.characterName],
+    references: [character.name],
+  }),
 }));
 
+export const eventsRelations = relations(events, ({ many }) => ({
+  eventPresences: many(eventPresences),
+  eventAssignments: many(eventAssignments),
+}));
+
+// Event Presences
 export const eventPresences = createTable(
   'eventPresence',
   {
@@ -346,10 +348,42 @@ export const eventPresencesRelations = relations(eventPresences, ({ one }) => ({
   }),
 }));
 
+// Event Assignments
+export const eventAssignments = createTable('eventAssignments', {
+  id: text('id').primaryKey().$defaultFn(createId),
+  eventId: text('eventId')
+    .notNull()
+    .references(() => events.id, { onDelete: 'cascade' }),
+  assignmentId: text('assignmentId')
+    .notNull()
+    .references(() => assignments.id, { onDelete: 'cascade' }),
+});
+
+export const eventAssignmentsRelations = relations(
+  eventAssignments,
+  ({ one }) => ({
+    event: one(events, {
+      fields: [eventAssignments.eventId],
+      references: [events.id],
+    }),
+    assignment: one(assignments, {
+      fields: [eventAssignments.assignmentId],
+      references: [assignments.id],
+    }),
+  }),
+);
+
 export type User = typeof users.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
 export type UserMatch = typeof userMatches.$inferSelect;
 export type Message = typeof messages.$inferSelect;
+export type Assignment = typeof assignments.$inferSelect;
+export type AssignmentSubmission = typeof assignmentSubmissions.$inferSelect;
+export type Character = typeof character.$inferSelect;
+export type Event = typeof events.$inferSelect;
+export type EventPresence = typeof eventPresences.$inferSelect;
+export type EventAssignment = typeof eventAssignments.$inferSelect;
+
 export type UserRole = (typeof roleEnum.enumValues)[number];
 export type UserFaculty = (typeof facultyEnum.enumValues)[number];
 export type UserGender = (typeof genderEnum.enumValues)[number];
