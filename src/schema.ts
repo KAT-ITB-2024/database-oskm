@@ -69,9 +69,10 @@ export const users = createTable(
     createdAt: timestamp('createdAt', { mode: 'date', withTimezone: true })
       .notNull()
       .defaultNow(),
-    updatedAt: timestamp('updatedAt', { mode: 'date', withTimezone: true })
-      .notNull()
-      .defaultNow(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
   },
   (user) => ({
     idIdx: index().on(user.id),
@@ -102,7 +103,9 @@ export const profiles = createTable(
       .defaultNow(),
     profileImage: text('profileImage'),
     groupNumber: integer('groupNumber').notNull(),
-    point: integer('point'),
+    point: integer('point')
+      .notNull()
+      .$default(() => 0),
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
@@ -201,7 +204,9 @@ export const assignments = createTable('assignments', {
   createdAt: timestamp('createdAt', {
     mode: 'date',
     withTimezone: true,
-  }).notNull(),
+  })
+    .notNull()
+    .defaultNow(),
   updatedAt: timestamp('updatedAt', {
     mode: 'date',
     withTimezone: true,
@@ -228,7 +233,9 @@ export const assignmentSubmissions = createTable(
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
-    }).notNull(),
+    })
+      .notNull()
+      .defaultNow(),
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,
@@ -254,14 +261,14 @@ export const assignmentSubmissionsRelations = relations(
 );
 
 // Character
-export const character = createTable('character', {
+export const characters = createTable('characters', {
   name: varchar('name', { length: 255 }).notNull().primaryKey(),
   characterImage: varchar('characterImage', { length: 255 }).notNull(),
 });
 
 // Events
 export const events = createTable(
-  'event',
+  'events',
   {
     id: text('id').primaryKey().$defaultFn(createId),
     day: eventDayEnum('day').notNull(),
@@ -273,7 +280,9 @@ export const events = createTable(
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
-    }).notNull(),
+    })
+      .notNull()
+      .defaultNow(),
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,
@@ -281,7 +290,7 @@ export const events = createTable(
     lore: text('lore').notNull(),
     characterName: varchar('characterName', { length: 255 })
       .notNull()
-      .references(() => character.name),
+      .references(() => characters.name),
   },
   (e) => ({
     uniqueDayConstraint: unique().on(e.day),
@@ -289,9 +298,9 @@ export const events = createTable(
 );
 
 export const eventsCharacterRelations = relations(events, ({ one }) => ({
-  character: one(character, {
+  character: one(characters, {
     fields: [events.characterName],
-    references: [character.name],
+    references: [characters.name],
   }),
 }));
 
@@ -302,7 +311,7 @@ export const eventsRelations = relations(events, ({ many }) => ({
 
 // Event Presences
 export const eventPresences = createTable(
-  'eventPresence',
+  'eventPresences',
   {
     id: text('id').primaryKey().$defaultFn(createId),
     eventId: text('eventId')
@@ -316,13 +325,13 @@ export const eventPresences = createTable(
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
-    }).notNull(),
-    updatedAt: timestamp('updatedAt', {
-      mode: 'date',
-      withTimezone: true,
     })
       .notNull()
       .defaultNow(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
     profileImage: text('profileImage'),
   },
   (presence) => ({
@@ -378,7 +387,7 @@ export type UserMatch = typeof userMatches.$inferSelect;
 export type Message = typeof messages.$inferSelect;
 export type Assignment = typeof assignments.$inferSelect;
 export type AssignmentSubmission = typeof assignmentSubmissions.$inferSelect;
-export type Character = typeof character.$inferSelect;
+export type Character = typeof characters.$inferSelect;
 export type Event = typeof events.$inferSelect;
 export type EventPresence = typeof eventPresences.$inferSelect;
 export type EventAssignment = typeof eventAssignments.$inferSelect;

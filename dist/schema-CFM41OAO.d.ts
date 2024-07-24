@@ -83,7 +83,7 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: true;
+            hasDefault: false;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
@@ -203,8 +203,8 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
             columnType: "PgInteger";
             data: number;
             driverParam: string | number;
-            notNull: false;
-            hasDefault: false;
+            notNull: true;
+            hasDefault: true;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
@@ -513,7 +513,7 @@ declare const assignments: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: false;
+            hasDefault: true;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
@@ -603,7 +603,7 @@ declare const assignmentSubmissions: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: false;
+            hasDefault: true;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
@@ -626,13 +626,13 @@ declare const assignmentSubmissionsRelations: drizzle_orm.Relations<"assignmentS
     assignment: drizzle_orm.One<"assignments", true>;
     user: drizzle_orm.One<"users", true>;
 }>;
-declare const character: drizzle_orm_pg_core.PgTableWithColumns<{
-    name: "character";
+declare const characters: drizzle_orm_pg_core.PgTableWithColumns<{
+    name: "characters";
     schema: undefined;
     columns: {
         name: drizzle_orm_pg_core.PgColumn<{
             name: "name";
-            tableName: "character";
+            tableName: "characters";
             dataType: "string";
             columnType: "PgVarchar";
             data: string;
@@ -644,7 +644,7 @@ declare const character: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         characterImage: drizzle_orm_pg_core.PgColumn<{
             name: "characterImage";
-            tableName: "character";
+            tableName: "characters";
             dataType: "string";
             columnType: "PgVarchar";
             data: string;
@@ -658,12 +658,12 @@ declare const character: drizzle_orm_pg_core.PgTableWithColumns<{
     dialect: "pg";
 }>;
 declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
-    name: "event";
+    name: "events";
     schema: undefined;
     columns: {
         id: drizzle_orm_pg_core.PgColumn<{
             name: "id";
-            tableName: "event";
+            tableName: "events";
             dataType: "string";
             columnType: "PgText";
             data: string;
@@ -675,7 +675,7 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         day: drizzle_orm_pg_core.PgColumn<{
             name: "day";
-            tableName: "event";
+            tableName: "events";
             dataType: "string";
             columnType: "PgEnumColumn";
             data: "Day 1" | "Day 2" | "Day 3" | "Day 4";
@@ -687,7 +687,7 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         eventDate: drizzle_orm_pg_core.PgColumn<{
             name: "eventDate";
-            tableName: "event";
+            tableName: "events";
             dataType: "date";
             columnType: "PgDate";
             data: Date;
@@ -699,7 +699,7 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         openingOpenPresenceTime: drizzle_orm_pg_core.PgColumn<{
             name: "openingOpenPresenceTime";
-            tableName: "event";
+            tableName: "events";
             dataType: "string";
             columnType: "PgTime";
             data: string;
@@ -711,7 +711,7 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         openingClosePresenceTime: drizzle_orm_pg_core.PgColumn<{
             name: "openingClosePresenceTime";
-            tableName: "event";
+            tableName: "events";
             dataType: "string";
             columnType: "PgTime";
             data: string;
@@ -723,7 +723,7 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         closingOpenPresenceTime: drizzle_orm_pg_core.PgColumn<{
             name: "closingOpenPresenceTime";
-            tableName: "event";
+            tableName: "events";
             dataType: "string";
             columnType: "PgTime";
             data: string;
@@ -735,7 +735,7 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         closingClosePresenceTime: drizzle_orm_pg_core.PgColumn<{
             name: "closingClosePresenceTime";
-            tableName: "event";
+            tableName: "events";
             dataType: "string";
             columnType: "PgTime";
             data: string;
@@ -747,19 +747,19 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         createdAt: drizzle_orm_pg_core.PgColumn<{
             name: "createdAt";
-            tableName: "event";
+            tableName: "events";
             dataType: "date";
             columnType: "PgTimestamp";
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: false;
+            hasDefault: true;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
         updatedAt: drizzle_orm_pg_core.PgColumn<{
             name: "updatedAt";
-            tableName: "event";
+            tableName: "events";
             dataType: "date";
             columnType: "PgTimestamp";
             data: Date;
@@ -771,7 +771,7 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         lore: drizzle_orm_pg_core.PgColumn<{
             name: "lore";
-            tableName: "event";
+            tableName: "events";
             dataType: "string";
             columnType: "PgText";
             data: string;
@@ -783,7 +783,7 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         characterName: drizzle_orm_pg_core.PgColumn<{
             name: "characterName";
-            tableName: "event";
+            tableName: "events";
             dataType: "string";
             columnType: "PgVarchar";
             data: string;
@@ -796,20 +796,20 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
     };
     dialect: "pg";
 }>;
-declare const eventsCharacterRelations: drizzle_orm.Relations<"event", {
-    character: drizzle_orm.One<"character", true>;
+declare const eventsCharacterRelations: drizzle_orm.Relations<"events", {
+    character: drizzle_orm.One<"characters", true>;
 }>;
-declare const eventsRelations: drizzle_orm.Relations<"event", {
-    eventPresences: drizzle_orm.Many<"eventPresence">;
+declare const eventsRelations: drizzle_orm.Relations<"events", {
+    eventPresences: drizzle_orm.Many<"eventPresences">;
     eventAssignments: drizzle_orm.Many<"eventAssignments">;
 }>;
 declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
-    name: "eventPresence";
+    name: "eventPresences";
     schema: undefined;
     columns: {
         id: drizzle_orm_pg_core.PgColumn<{
             name: "id";
-            tableName: "eventPresence";
+            tableName: "eventPresences";
             dataType: "string";
             columnType: "PgText";
             data: string;
@@ -821,7 +821,7 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         eventId: drizzle_orm_pg_core.PgColumn<{
             name: "eventId";
-            tableName: "eventPresence";
+            tableName: "eventPresences";
             dataType: "string";
             columnType: "PgText";
             data: string;
@@ -833,7 +833,7 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         userNim: drizzle_orm_pg_core.PgColumn<{
             name: "userNim";
-            tableName: "eventPresence";
+            tableName: "eventPresences";
             dataType: "string";
             columnType: "PgVarchar";
             data: string;
@@ -845,7 +845,7 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         presenceType: drizzle_orm_pg_core.PgColumn<{
             name: "presenceType";
-            tableName: "eventPresence";
+            tableName: "eventPresences";
             dataType: "string";
             columnType: "PgEnumColumn";
             data: "Hadir" | "Izin/Sakit" | "Alpha";
@@ -857,7 +857,7 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         presenceEvent: drizzle_orm_pg_core.PgColumn<{
             name: "presenceEvent";
-            tableName: "eventPresence";
+            tableName: "eventPresences";
             dataType: "string";
             columnType: "PgEnumColumn";
             data: "Opening" | "Closing";
@@ -869,19 +869,7 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         createdAt: drizzle_orm_pg_core.PgColumn<{
             name: "createdAt";
-            tableName: "eventPresence";
-            dataType: "date";
-            columnType: "PgTimestamp";
-            data: Date;
-            driverParam: string;
-            notNull: true;
-            hasDefault: false;
-            enumValues: undefined;
-            baseColumn: never;
-        }, {}, {}>;
-        updatedAt: drizzle_orm_pg_core.PgColumn<{
-            name: "updatedAt";
-            tableName: "eventPresence";
+            tableName: "eventPresences";
             dataType: "date";
             columnType: "PgTimestamp";
             data: Date;
@@ -891,9 +879,21 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
+        updatedAt: drizzle_orm_pg_core.PgColumn<{
+            name: "updatedAt";
+            tableName: "eventPresences";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
         profileImage: drizzle_orm_pg_core.PgColumn<{
             name: "profileImage";
-            tableName: "eventPresence";
+            tableName: "eventPresences";
             dataType: "string";
             columnType: "PgText";
             data: string;
@@ -906,8 +906,8 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
     };
     dialect: "pg";
 }>;
-declare const eventPresencesRelations: drizzle_orm.Relations<"eventPresence", {
-    event: drizzle_orm.One<"event", true>;
+declare const eventPresencesRelations: drizzle_orm.Relations<"eventPresences", {
+    event: drizzle_orm.One<"events", true>;
     user: drizzle_orm.One<"users", true>;
 }>;
 declare const eventAssignments: drizzle_orm_pg_core.PgTableWithColumns<{
@@ -954,7 +954,7 @@ declare const eventAssignments: drizzle_orm_pg_core.PgTableWithColumns<{
     dialect: "pg";
 }>;
 declare const eventAssignmentsRelations: drizzle_orm.Relations<"eventAssignments", {
-    event: drizzle_orm.One<"event", true>;
+    event: drizzle_orm.One<"events", true>;
     assignment: drizzle_orm.One<"assignments", true>;
 }>;
 type User = typeof users.$inferSelect;
@@ -963,7 +963,7 @@ type UserMatch = typeof userMatches.$inferSelect;
 type Message = typeof messages.$inferSelect;
 type Assignment = typeof assignments.$inferSelect;
 type AssignmentSubmission = typeof assignmentSubmissions.$inferSelect;
-type Character = typeof character.$inferSelect;
+type Character = typeof characters.$inferSelect;
 type Event = typeof events.$inferSelect;
 type EventPresence = typeof eventPresences.$inferSelect;
 type EventAssignment = typeof eventAssignments.$inferSelect;
@@ -972,4 +972,51 @@ type UserFaculty = (typeof facultyEnum.enumValues)[number];
 type UserGender = (typeof genderEnum.enumValues)[number];
 type UserCampus = (typeof campusEnum.enumValues)[number];
 
-export { type Assignment, type AssignmentSubmission, type Character, type Event, type EventAssignment, type EventPresence, type Message, type Profile, type User, type UserCampus, type UserFaculty, type UserGender, type UserMatch, type UserRole, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, campusEnum, character, createTable, eventAssignments, eventAssignmentsRelations, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharacterRelations, eventsRelations, facultyEnum, genderEnum, lembagaEnum, messages, messagesRelations, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, roleEnum, userMatches, userMatchesRelations, users, usersRelations };
+type schema_Assignment = Assignment;
+type schema_AssignmentSubmission = AssignmentSubmission;
+type schema_Character = Character;
+type schema_Event = Event;
+type schema_EventAssignment = EventAssignment;
+type schema_EventPresence = EventPresence;
+type schema_Message = Message;
+type schema_Profile = Profile;
+type schema_User = User;
+type schema_UserCampus = UserCampus;
+type schema_UserFaculty = UserFaculty;
+type schema_UserGender = UserGender;
+type schema_UserMatch = UserMatch;
+type schema_UserRole = UserRole;
+declare const schema_assignmentSubmissions: typeof assignmentSubmissions;
+declare const schema_assignmentSubmissionsRelations: typeof assignmentSubmissionsRelations;
+declare const schema_assignmentTypeEnum: typeof assignmentTypeEnum;
+declare const schema_assignments: typeof assignments;
+declare const schema_campusEnum: typeof campusEnum;
+declare const schema_characters: typeof characters;
+declare const schema_createTable: typeof createTable;
+declare const schema_eventAssignments: typeof eventAssignments;
+declare const schema_eventAssignmentsRelations: typeof eventAssignmentsRelations;
+declare const schema_eventDayEnum: typeof eventDayEnum;
+declare const schema_eventPresences: typeof eventPresences;
+declare const schema_eventPresencesRelations: typeof eventPresencesRelations;
+declare const schema_events: typeof events;
+declare const schema_eventsCharacterRelations: typeof eventsCharacterRelations;
+declare const schema_eventsRelations: typeof eventsRelations;
+declare const schema_facultyEnum: typeof facultyEnum;
+declare const schema_genderEnum: typeof genderEnum;
+declare const schema_lembagaEnum: typeof lembagaEnum;
+declare const schema_messages: typeof messages;
+declare const schema_messagesRelations: typeof messagesRelations;
+declare const schema_presenceEventEnum: typeof presenceEventEnum;
+declare const schema_presenceTypeEnum: typeof presenceTypeEnum;
+declare const schema_profiles: typeof profiles;
+declare const schema_profilesRelations: typeof profilesRelations;
+declare const schema_roleEnum: typeof roleEnum;
+declare const schema_userMatches: typeof userMatches;
+declare const schema_userMatchesRelations: typeof userMatchesRelations;
+declare const schema_users: typeof users;
+declare const schema_usersRelations: typeof usersRelations;
+declare namespace schema {
+  export { type schema_Assignment as Assignment, type schema_AssignmentSubmission as AssignmentSubmission, type schema_Character as Character, type schema_Event as Event, type schema_EventAssignment as EventAssignment, type schema_EventPresence as EventPresence, type schema_Message as Message, type schema_Profile as Profile, type schema_User as User, type schema_UserCampus as UserCampus, type schema_UserFaculty as UserFaculty, type schema_UserGender as UserGender, type schema_UserMatch as UserMatch, type schema_UserRole as UserRole, schema_assignmentSubmissions as assignmentSubmissions, schema_assignmentSubmissionsRelations as assignmentSubmissionsRelations, schema_assignmentTypeEnum as assignmentTypeEnum, schema_assignments as assignments, schema_campusEnum as campusEnum, schema_characters as characters, schema_createTable as createTable, schema_eventAssignments as eventAssignments, schema_eventAssignmentsRelations as eventAssignmentsRelations, schema_eventDayEnum as eventDayEnum, schema_eventPresences as eventPresences, schema_eventPresencesRelations as eventPresencesRelations, schema_events as events, schema_eventsCharacterRelations as eventsCharacterRelations, schema_eventsRelations as eventsRelations, schema_facultyEnum as facultyEnum, schema_genderEnum as genderEnum, schema_lembagaEnum as lembagaEnum, schema_messages as messages, schema_messagesRelations as messagesRelations, schema_presenceEventEnum as presenceEventEnum, schema_presenceTypeEnum as presenceTypeEnum, schema_profiles as profiles, schema_profilesRelations as profilesRelations, schema_roleEnum as roleEnum, schema_userMatches as userMatches, schema_userMatchesRelations as userMatchesRelations, schema_users as users, schema_usersRelations as usersRelations };
+}
+
+export { eventPresences as A, eventPresencesRelations as B, eventAssignments as C, eventAssignmentsRelations as D, type UserMatch as E, type Assignment as F, type AssignmentSubmission as G, type Character as H, type Event as I, type EventPresence as J, type EventAssignment as K, type UserRole as L, type Message as M, type UserFaculty as N, type UserGender as O, type Profile as P, type UserCampus as Q, type User as U, campusEnum as a, assignmentTypeEnum as b, createTable as c, presenceEventEnum as d, eventDayEnum as e, facultyEnum as f, genderEnum as g, usersRelations as h, profiles as i, profilesRelations as j, userMatches as k, lembagaEnum as l, userMatchesRelations as m, messages as n, messagesRelations as o, presenceTypeEnum as p, assignments as q, roleEnum as r, schema as s, assignmentSubmissions as t, users as u, assignmentSubmissionsRelations as v, characters as w, events as x, eventsCharacterRelations as y, eventsRelations as z };
