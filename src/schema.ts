@@ -58,6 +58,8 @@ export const presenceEventEnum = pgEnum('presenceEvent', [
   'Closing',
 ]);
 
+export const classDayEnum = pgEnum('classDay', ['Day 1', 'Day 2']);
+
 // Users
 export const users = createTable(
   'users',
@@ -301,7 +303,7 @@ export const characters = createTable('characters', {
 
 // Events
 export const events = createTable(
-  'event',
+  'events',
   {
     id: text('id').primaryKey().$defaultFn(createId),
     day: eventDayEnum('day').notNull(),
@@ -413,6 +415,18 @@ export const eventAssignmentsRelations = relations(
     }),
   }),
 );
+
+export const classes = createTable('classes', {
+  id: text('id').primaryKey().$defaultFn(createId),
+  title: varchar('title', { length: 255 }).notNull(),
+  topic: varchar('topic', { length: 100 }),
+  description: text('description').notNull(),
+  speaker: varchar('speaker', { length: 100 }).notNull(),
+  location: varchar('location', { length: 100 }).notNull(),
+  date: timestamp('date', { mode: 'date', withTimezone: true }).notNull(),
+  totalSeats: integer('totalSeats').notNull(),
+  reservedSeats: integer('reservedSeats').default(0),
+});
 
 export type User = typeof users.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
