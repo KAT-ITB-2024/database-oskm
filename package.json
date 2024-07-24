@@ -2,9 +2,9 @@
   "name": "database-oskm",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "./dist/schema.cjs",
-  "module": "./dist/schema.js",
-  "types": "./dist/schema.d.ts",
+  "main": "./dist",
+  "module": "./dist",
+  "types": "./dist",
   "type": "module",
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
@@ -23,7 +23,7 @@
     "ts-node": "^10.9.2"
   },
   "scripts": {
-    "build": "tsup src/schema.ts --dts --format cjs,esm --out-dir dist",
+    "build": "tsup src/schema.ts src/seed.ts --dts --format cjs,esm --out-dir dist",
     "view": "node --experimental-specifier-resolution=node --loader ts-node/esm src/dbml.ts",
     "generate": "drizzle-kit generate"
   }
