@@ -69,9 +69,10 @@ export const users = createTable(
     createdAt: timestamp('createdAt', { mode: 'date', withTimezone: true })
       .notNull()
       .defaultNow(),
-    updatedAt: timestamp('updatedAt', { mode: 'date', withTimezone: true })
-      .notNull()
-      .defaultNow(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
   },
   (user) => ({
     idIdx: index().on(user.id),
@@ -98,9 +99,10 @@ export const profiles = createTable(
     faculty: facultyEnum('faculty').notNull(),
     gender: genderEnum('gender').notNull(),
     campus: campusEnum('campus').notNull(),
-    updatedAt: timestamp('updatedAt', { mode: 'date', withTimezone: true })
-      .notNull()
-      .defaultNow(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
     profileImage: text('profileImage'),
     groupNumber: integer('groupNumber').notNull(),
     point: integer('point'),
@@ -269,14 +271,14 @@ export const assignmentSubmissionsRelations = relations(
 );
 
 // Character
-export const character = createTable('character', {
+export const character = createTable('characters', {
   name: varchar('name', { length: 255 }).notNull().primaryKey(),
   characterImage: varchar('characterImage', { length: 255 }).notNull(),
 });
 
 // Events
 export const events = createTable(
-  'event',
+  'events',
   {
     id: text('id').primaryKey().$defaultFn(createId),
     day: eventDayEnum('day').notNull(),
@@ -317,7 +319,7 @@ export const eventsRelations = relations(events, ({ many }) => ({
 
 // Event Presences
 export const eventPresences = createTable(
-  'eventPresence',
+  'eventPresences',
   {
     id: text('id').primaryKey().$defaultFn(createId),
     eventId: text('eventId')
@@ -335,9 +337,7 @@ export const eventPresences = createTable(
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,
-    })
-      .notNull()
-      .defaultNow(),
+    }).notNull(),
     profileImage: text('profileImage'),
   },
   (presence) => ({
