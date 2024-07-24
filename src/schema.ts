@@ -269,7 +269,7 @@ export const assignmentSubmissionsRelations = relations(
 );
 
 // Character
-export const character = createTable('character', {
+export const characters = createTable('characters', {
   name: varchar('name', { length: 255 }).notNull().primaryKey(),
   characterImage: varchar('characterImage', { length: 255 }).notNull(),
 });
@@ -296,17 +296,18 @@ export const events = createTable(
     lore: text('lore').notNull(),
     characterName: varchar('characterName', { length: 255 })
       .notNull()
-      .references(() => character.name),
+      .references(() => characters.name),
+    guideBook: varchar('guideBook', { length: 255 }).notNull(),
   },
   (e) => ({
     uniqueDayConstraint: unique().on(e.day),
   }),
 );
 
-export const eventsCharacterRelations = relations(events, ({ one }) => ({
-  character: one(character, {
+export const eventsCharactersRelations = relations(events, ({ one }) => ({
+  characters: one(characters, {
     fields: [events.characterName],
-    references: [character.name],
+    references: [characters.name],
   }),
 }));
 
@@ -393,7 +394,7 @@ export type UserMatch = typeof userMatches.$inferSelect;
 export type Message = typeof messages.$inferSelect;
 export type Assignment = typeof assignments.$inferSelect;
 export type AssignmentSubmission = typeof assignmentSubmissions.$inferSelect;
-export type Character = typeof character.$inferSelect;
+export type Character = typeof characters.$inferSelect;
 export type Event = typeof events.$inferSelect;
 export type EventPresence = typeof eventPresences.$inferSelect;
 export type EventAssignment = typeof eventAssignments.$inferSelect;

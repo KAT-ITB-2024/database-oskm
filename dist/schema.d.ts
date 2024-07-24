@@ -651,13 +651,13 @@ declare const assignmentSubmissionsRelations: drizzle_orm.Relations<"assignmentS
     assignment: drizzle_orm.One<"assignments", true>;
     user: drizzle_orm.One<"users", true>;
 }>;
-declare const character: drizzle_orm_pg_core.PgTableWithColumns<{
-    name: "character";
+declare const characters: drizzle_orm_pg_core.PgTableWithColumns<{
+    name: "characters";
     schema: undefined;
     columns: {
         name: drizzle_orm_pg_core.PgColumn<{
             name: "name";
-            tableName: "character";
+            tableName: "characters";
             dataType: "string";
             columnType: "PgVarchar";
             data: string;
@@ -669,7 +669,7 @@ declare const character: drizzle_orm_pg_core.PgTableWithColumns<{
         }, {}, {}>;
         characterImage: drizzle_orm_pg_core.PgColumn<{
             name: "characterImage";
-            tableName: "character";
+            tableName: "characters";
             dataType: "string";
             columnType: "PgVarchar";
             data: string;
@@ -818,11 +818,23 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
+        guideBook: drizzle_orm_pg_core.PgColumn<{
+            name: "guideBook";
+            tableName: "event";
+            dataType: "string";
+            columnType: "PgVarchar";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
     };
     dialect: "pg";
 }>;
-declare const eventsCharacterRelations: drizzle_orm.Relations<"event", {
-    character: drizzle_orm.One<"character", true>;
+declare const eventsCharactersRelations: drizzle_orm.Relations<"event", {
+    characters: drizzle_orm.One<"characters", true>;
 }>;
 declare const eventsRelations: drizzle_orm.Relations<"event", {
     eventPresences: drizzle_orm.Many<"eventPresence">;
@@ -988,7 +1000,7 @@ type UserMatch = typeof userMatches.$inferSelect;
 type Message = typeof messages.$inferSelect;
 type Assignment = typeof assignments.$inferSelect;
 type AssignmentSubmission = typeof assignmentSubmissions.$inferSelect;
-type Character = typeof character.$inferSelect;
+type Character = typeof characters.$inferSelect;
 type Event = typeof events.$inferSelect;
 type EventPresence = typeof eventPresences.$inferSelect;
 type EventAssignment = typeof eventAssignments.$inferSelect;
@@ -997,4 +1009,4 @@ type UserFaculty = (typeof facultyEnum.enumValues)[number];
 type UserGender = (typeof genderEnum.enumValues)[number];
 type UserCampus = (typeof campusEnum.enumValues)[number];
 
-export { type Assignment, type AssignmentSubmission, type Character, type Event, type EventAssignment, type EventPresence, type Message, type Profile, type User, type UserCampus, type UserFaculty, type UserGender, type UserMatch, type UserRole, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, campusEnum, character, createTable, eventAssignments, eventAssignmentsRelations, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharacterRelations, eventsRelations, facultyEnum, genderEnum, lembagaEnum, messages, messagesRelations, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, roleEnum, userMatches, userMatchesRelations, users, usersRelations };
+export { type Assignment, type AssignmentSubmission, type Character, type Event, type EventAssignment, type EventPresence, type Message, type Profile, type User, type UserCampus, type UserFaculty, type UserGender, type UserMatch, type UserRole, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, campusEnum, characters, createTable, eventAssignments, eventAssignmentsRelations, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharactersRelations, eventsRelations, facultyEnum, genderEnum, lembagaEnum, messages, messagesRelations, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, roleEnum, userMatches, userMatchesRelations, users, usersRelations };

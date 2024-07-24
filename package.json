@@ -23,7 +23,7 @@
     "ts-node": "^10.9.2"
   },
   "scripts": {
-    "build": "tsup src/schema.ts --dts --format cjs,esm --out-dir dist",
+    "build": "tsup src/schema.ts --dts --format cjs,esm --out-dir dist && drizzle-kit generate",
     "view": "node --experimental-specifier-resolution=node --loader ts-node/esm src/dbml.ts",
     "generate": "drizzle-kit generate"
   }
