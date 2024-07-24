@@ -1,9 +1,8 @@
 import fs from 'fs';
 import bcrypt from 'bcrypt';
-import { users, profiles, assignments, events } from '~/schema';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import * as schema from '../src/schema';
+import * as schema from './schema';
 import { type PostgresJsDatabase } from 'drizzle-orm/postgres-js/driver';
 import { eq } from 'drizzle-orm';
 
@@ -11,7 +10,7 @@ export async function seedUser(db: PostgresJsDatabase<typeof schema>) {
   const password = await bcrypt.hash('password', 10);
   for (let i = 0; i < 10; i++) {
     try {
-      await db.insert(users).values({
+      await db.insert(schema.users).values({
         nim: `1352100${i}`,
         password,
         role: 'Peserta',
@@ -26,7 +25,7 @@ export async function seedUser(db: PostgresJsDatabase<typeof schema>) {
   for (let i = 0; i < 5; i++) {
     const role = i % 2 === 0 ? 'Mamet' : 'Mentor';
     try {
-      await db.insert(users).values({
+      await db.insert(schema.users).values({
         nim: `1352200${i}`,
         password,
         role,
@@ -42,8 +41,8 @@ export async function seedUser(db: PostgresJsDatabase<typeof schema>) {
 export async function seedProfile(db: PostgresJsDatabase<typeof schema>) {
   const userIds = await db
     .select()
-    .from(users)
-    .where(eq(users.role, 'Peserta'));
+    .from(schema.users)
+    .where(eq(schema.users.role, 'Peserta'));
   if (!userIds) {
     return;
   }
@@ -54,7 +53,7 @@ export async function seedProfile(db: PostgresJsDatabase<typeof schema>) {
       return;
     }
     try {
-      await db.insert(profiles).values({
+      await db.insert(schema.profiles).values({
         name: `User ${user.id}`,
         userId: user.id,
         faculty: 'STEI',
@@ -76,7 +75,7 @@ export async function seedAssignment(db: PostgresJsDatabase<typeof schema>) {
   let dayCounter = 25;
   let timeCounter = 0;
   for (let i = 0; i < 4; i++) {
-    await db.insert(assignments).values({
+    await db.insert(schema.assignments).values({
       title: `Assignment ${i}`,
       description: `Description buat assignment ke ${i}`,
       startTime: new Date(`2023-07-${dayCounter}T00:00:00Z`), // Tanggal 25
@@ -109,7 +108,7 @@ export async function seedEvent(db: PostgresJsDatabase<typeof schema>) {
     return;
   }
 
-  await db.insert(events).values({
+  await db.insert(schema.events).values({
     day: 'Day 1',
     eventDate: new Date('2023-07-25T00:00:00Z'),
     openingOpenPresenceTime: '09:00:00',
@@ -121,7 +120,7 @@ export async function seedEvent(db: PostgresJsDatabase<typeof schema>) {
     characterName: characters[0]?.name,
   });
 
-  await db.insert(events).values({
+  await db.insert(schema.events).values({
     day: 'Day 2',
     eventDate: new Date('2023-07-28T00:00:00Z'),
     openingOpenPresenceTime: '09:00:00',
@@ -135,10 +134,7 @@ export async function seedEvent(db: PostgresJsDatabase<typeof schema>) {
 }
 
 export async function seed(dbUrl: string) {
-  const migrationClient = postgres(
-    'postgres://postgres:postgres@localhost:5432/coba',
-    { max: 1 },
-  );
+  const migrationClient = postgres(dbUrl, { max: 1 });
 
   const db = drizzle(migrationClient, { schema });
   await seedUser(db);
