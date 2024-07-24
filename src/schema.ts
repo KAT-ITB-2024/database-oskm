@@ -35,7 +35,7 @@ export const lembagaEnum = pgEnum('lembaga', ['HMJ', 'Unit']);
 
 export const roleEnum = pgEnum('role', ['Peserta', 'Mentor', 'Mamet']);
 
-export const genderEnum = pgEnum('gender', ['male', 'female']);
+export const genderEnum = pgEnum('gender', ['Male', 'Female']);
 
 export const campusEnum = pgEnum('campus', [
   'Ganesha',
@@ -69,9 +69,10 @@ export const users = createTable(
     createdAt: timestamp('createdAt', { mode: 'date', withTimezone: true })
       .notNull()
       .defaultNow(),
-    updatedAt: timestamp('updatedAt', { mode: 'date', withTimezone: true })
-      .notNull()
-      .defaultNow(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
   },
   (user) => ({
     idIdx: index().on(user.id),
@@ -85,6 +86,7 @@ export const usersRelations = relations(users, ({ many, one }) => ({
   userMatchesAsSecondUser: many(userMatches, { relationName: 'secondUser' }),
   messages: many(messages, { relationName: 'sender' }),
   messagesAsReceiver: many(messages, { relationName: 'receiver' }),
+  resetToken: one(resetTokens),
 }));
 
 // Profiles
@@ -98,9 +100,10 @@ export const profiles = createTable(
     faculty: facultyEnum('faculty').notNull(),
     gender: genderEnum('gender').notNull(),
     campus: campusEnum('campus').notNull(),
-    updatedAt: timestamp('updatedAt', { mode: 'date', withTimezone: true })
-      .notNull()
-      .defaultNow(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
     profileImage: text('profileImage'),
     groupNumber: integer('groupNumber').notNull(),
     point: integer('point'),
@@ -114,6 +117,24 @@ export const profiles = createTable(
 export const profilesRelations = relations(profiles, ({ one }) => ({
   users: one(users, {
     fields: [profiles.userId],
+    references: [users.id],
+  }),
+}));
+
+export const resetTokens = createTable('resetTokens', {
+  userId: text('id')
+    .primaryKey()
+    .references(() => users.id),
+  value: text('value'),
+  createdAt: timestamp('createdAt', { mode: 'date', withTimezone: true })
+    .notNull()
+    .defaultNow(),
+  expiredTime: integer('expiredTime').default(3600),
+});
+
+export const resetTokenRelations = relations(resetTokens, ({ one }) => ({
+  userId: one(users, {
+    fields: [resetTokens.userId],
     references: [users.id],
   }),
 }));
@@ -336,10 +357,7 @@ export const eventPresences = createTable(
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,
-    })
-      .notNull()
-      .defaultNow(),
-    profileImage: text('profileImage'),
+    }).notNull(),
   },
   (presence) => ({
     eventIdIdx: index('presence_eventId_idx').on(presence.eventId),
@@ -398,6 +416,7 @@ export type Character = typeof characters.$inferSelect;
 export type Event = typeof events.$inferSelect;
 export type EventPresence = typeof eventPresences.$inferSelect;
 export type EventAssignment = typeof eventAssignments.$inferSelect;
+export type ResetToken = typeof resetTokens.$inferSelect;
 
 export type UserRole = (typeof roleEnum.enumValues)[number];
 export type UserFaculty = (typeof facultyEnum.enumValues)[number];

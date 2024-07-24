@@ -36,6 +36,13 @@
       "when": 1721831007383,
       "tag": "0004_lame_millenium_guard",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1721839009528,
+      "tag": "0005_kind_black_bolt",
+      "breakpoints": true
     }
   ]
 }

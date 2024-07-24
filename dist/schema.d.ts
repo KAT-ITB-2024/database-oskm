@@ -5,7 +5,7 @@ declare const createTable: drizzle_orm_pg_core.PgTableFn<undefined>;
 declare const facultyEnum: drizzle_orm_pg_core.PgEnum<["FITB", "FMIPA", "FSRD", "FTMD", "FTTM", "FTSL", "FTI", "SAPPK", "SBM", "SF", "SITH", "STEI"]>;
 declare const lembagaEnum: drizzle_orm_pg_core.PgEnum<["HMJ", "Unit"]>;
 declare const roleEnum: drizzle_orm_pg_core.PgEnum<["Peserta", "Mentor", "Mamet"]>;
-declare const genderEnum: drizzle_orm_pg_core.PgEnum<["male", "female"]>;
+declare const genderEnum: drizzle_orm_pg_core.PgEnum<["Male", "Female"]>;
 declare const campusEnum: drizzle_orm_pg_core.PgEnum<["Ganesha", "Jatinangor", "Cirebon"]>;
 declare const assignmentTypeEnum: drizzle_orm_pg_core.PgEnum<["Daily", "Side"]>;
 declare const presenceTypeEnum: drizzle_orm_pg_core.PgEnum<["Hadir", "Izin/Sakit", "Alpha"]>;
@@ -83,7 +83,7 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: true;
+            hasDefault: false;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
@@ -96,6 +96,7 @@ declare const usersRelations: drizzle_orm.Relations<"users", {
     userMatchesAsSecondUser: drizzle_orm.Many<"userMatches">;
     messages: drizzle_orm.Many<"messages">;
     messagesAsReceiver: drizzle_orm.Many<"messages">;
+    resetToken: drizzle_orm.One<"resetTokens", false>;
 }>;
 declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
     name: "profiles";
@@ -142,11 +143,11 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
             tableName: "profiles";
             dataType: "string";
             columnType: "PgEnumColumn";
-            data: "male" | "female";
+            data: "Male" | "Female";
             driverParam: string;
             notNull: true;
             hasDefault: false;
-            enumValues: ["male", "female"];
+            enumValues: ["Male", "Female"];
             baseColumn: never;
         }, {}, {}>;
         campus: drizzle_orm_pg_core.PgColumn<{
@@ -169,7 +170,7 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: true;
+            hasDefault: false;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
@@ -214,6 +215,64 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
 }>;
 declare const profilesRelations: drizzle_orm.Relations<"profiles", {
     users: drizzle_orm.One<"users", true>;
+}>;
+declare const resetTokens: drizzle_orm_pg_core.PgTableWithColumns<{
+    name: "resetTokens";
+    schema: undefined;
+    columns: {
+        userId: drizzle_orm_pg_core.PgColumn<{
+            name: "id";
+            tableName: "resetTokens";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        value: drizzle_orm_pg_core.PgColumn<{
+            name: "value";
+            tableName: "resetTokens";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        createdAt: drizzle_orm_pg_core.PgColumn<{
+            name: "createdAt";
+            tableName: "resetTokens";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+        expiredTime: drizzle_orm_pg_core.PgColumn<{
+            name: "expiredTime";
+            tableName: "resetTokens";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+    };
+    dialect: "pg";
+}>;
+declare const resetTokenRelations: drizzle_orm.Relations<"resetTokens", {
+    userId: drizzle_orm.One<"users", true>;
 }>;
 declare const userMatches: drizzle_orm_pg_core.PgTableWithColumns<{
     name: "userMatches";
@@ -924,20 +983,8 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: true;
-            enumValues: undefined;
-            baseColumn: never;
-        }, {}, {}>;
-        profileImage: drizzle_orm_pg_core.PgColumn<{
-            name: "profileImage";
-            tableName: "eventPresence";
-            dataType: "string";
-            columnType: "PgText";
-            data: string;
-            driverParam: string;
-            notNull: false;
             hasDefault: false;
-            enumValues: [string, ...string[]];
+            enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
     };
@@ -1004,9 +1051,10 @@ type Character = typeof characters.$inferSelect;
 type Event = typeof events.$inferSelect;
 type EventPresence = typeof eventPresences.$inferSelect;
 type EventAssignment = typeof eventAssignments.$inferSelect;
+type ResetToken = typeof resetTokens.$inferSelect;
 type UserRole = (typeof roleEnum.enumValues)[number];
 type UserFaculty = (typeof facultyEnum.enumValues)[number];
 type UserGender = (typeof genderEnum.enumValues)[number];
 type UserCampus = (typeof campusEnum.enumValues)[number];
 
-export { type Assignment, type AssignmentSubmission, type Character, type Event, type EventAssignment, type EventPresence, type Message, type Profile, type User, type UserCampus, type UserFaculty, type UserGender, type UserMatch, type UserRole, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, campusEnum, characters, createTable, eventAssignments, eventAssignmentsRelations, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharactersRelations, eventsRelations, facultyEnum, genderEnum, lembagaEnum, messages, messagesRelations, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, roleEnum, userMatches, userMatchesRelations, users, usersRelations };
+export { type Assignment, type AssignmentSubmission, type Character, type Event, type EventAssignment, type EventPresence, type Message, type Profile, type ResetToken, type User, type UserCampus, type UserFaculty, type UserGender, type UserMatch, type UserRole, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, campusEnum, characters, createTable, eventAssignments, eventAssignmentsRelations, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharactersRelations, eventsRelations, facultyEnum, genderEnum, lembagaEnum, messages, messagesRelations, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, resetTokenRelations, resetTokens, roleEnum, userMatches, userMatchesRelations, users, usersRelations };
