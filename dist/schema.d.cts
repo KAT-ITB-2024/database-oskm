@@ -597,7 +597,7 @@ declare const assignments: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: false;
+            hasDefault: true;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
@@ -687,7 +687,7 @@ declare const assignmentSubmissions: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: false;
+            hasDefault: true;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
@@ -837,7 +837,7 @@ declare const events: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: false;
+            hasDefault: true;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
@@ -971,7 +971,7 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
             data: Date;
             driverParam: string;
             notNull: true;
-            hasDefault: false;
+            hasDefault: true;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;

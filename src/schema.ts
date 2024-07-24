@@ -237,7 +237,9 @@ export const assignments = createTable('assignments', {
   createdAt: timestamp('createdAt', {
     mode: 'date',
     withTimezone: true,
-  }).notNull(),
+  })
+    .notNull()
+    .defaultNow(),
   updatedAt: timestamp('updatedAt', {
     mode: 'date',
     withTimezone: true,
@@ -264,7 +266,9 @@ export const assignmentSubmissions = createTable(
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
-    }).notNull(),
+    })
+      .notNull()
+      .defaultNow(),
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,
@@ -309,7 +313,9 @@ export const events = createTable(
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
-    }).notNull(),
+    })
+      .notNull()
+      .defaultNow(),
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,
@@ -353,7 +359,9 @@ export const eventPresences = createTable(
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
-    }).notNull(),
+    })
+      .notNull()
+      .defaultNow(),
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,
