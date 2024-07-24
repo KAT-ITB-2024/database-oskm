@@ -218,7 +218,9 @@ export const assignments = createTable('assignments', {
   createdAt: timestamp('createdAt', {
     mode: 'date',
     withTimezone: true,
-  }).notNull(),
+  })
+    .notNull()
+    .defaultNow(),
   updatedAt: timestamp('updatedAt', {
     mode: 'date',
     withTimezone: true,
@@ -271,7 +273,7 @@ export const assignmentSubmissionsRelations = relations(
 );
 
 // Character
-export const character = createTable('characters', {
+export const characters = createTable('characters', {
   name: varchar('name', { length: 255 }).notNull().primaryKey(),
   characterImage: varchar('characterImage', { length: 255 }).notNull(),
 });
@@ -290,7 +292,9 @@ export const events = createTable(
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
-    }).notNull(),
+    })
+      .notNull()
+      .defaultNow(),
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,
@@ -298,7 +302,7 @@ export const events = createTable(
     lore: text('lore').notNull(),
     characterName: varchar('characterName', { length: 255 })
       .notNull()
-      .references(() => character.name),
+      .references(() => characters.name),
   },
   (e) => ({
     uniqueDayConstraint: unique().on(e.day),
@@ -306,9 +310,9 @@ export const events = createTable(
 );
 
 export const eventsCharacterRelations = relations(events, ({ one }) => ({
-  character: one(character, {
+  character: one(characters, {
     fields: [events.characterName],
-    references: [character.name],
+    references: [characters.name],
   }),
 }));
 
@@ -333,7 +337,9 @@ export const eventPresences = createTable(
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
-    }).notNull(),
+    })
+      .notNull()
+      .defaultNow(),
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,
@@ -393,7 +399,7 @@ export type UserMatch = typeof userMatches.$inferSelect;
 export type Message = typeof messages.$inferSelect;
 export type Assignment = typeof assignments.$inferSelect;
 export type AssignmentSubmission = typeof assignmentSubmissions.$inferSelect;
-export type Character = typeof character.$inferSelect;
+export type Character = typeof characters.$inferSelect;
 export type Event = typeof events.$inferSelect;
 export type EventPresence = typeof eventPresences.$inferSelect;
 export type EventAssignment = typeof eventAssignments.$inferSelect;
