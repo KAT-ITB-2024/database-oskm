@@ -89,6 +89,7 @@ export const usersRelations = relations(users, ({ many, one }) => ({
   messages: many(messages, { relationName: 'sender' }),
   messagesAsReceiver: many(messages, { relationName: 'receiver' }),
   resetToken: one(resetTokens),
+  chosenClass: one(classes),
 }));
 
 // Profiles
@@ -109,6 +110,10 @@ export const profiles = createTable(
     profileImage: text('profileImage'),
     groupNumber: integer('groupNumber').notNull(),
     point: integer('point'),
+    instagram: varchar('instagram', { length: 255 }),
+    chosenClass: varchar('chosenClass', { length: 255 }).references(
+      () => classes.id,
+    ),
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
@@ -155,9 +160,7 @@ export const userMatches = createTable('userMatches', {
   isRevealed: boolean('isRevealed')
     .notNull()
     .default(sql`false`),
-
   // is anonyomous -> dia mau profile dia keliatan ato ga
-
   isAnonymous: boolean('isAnonymous')
     .notNull()
     .default(sql`false`),
@@ -327,6 +330,7 @@ export const events = createTable(
       .notNull()
       .references(() => characters.name),
     guideBook: varchar('guideBook', { length: 255 }).notNull(),
+    youtubeVideo: varchar('youtubeVideo', { length: 255 }).notNull(),
   },
   (e) => ({
     uniqueDayConstraint: unique().on(e.day),
@@ -427,6 +431,24 @@ export const classes = createTable('classes', {
   totalSeats: integer('totalSeats').notNull(),
   reservedSeats: integer('reservedSeats').default(0),
 });
+
+export const classUserRelations = relations(classes, ({ many }) => ({
+  users: many(users),
+}));
+
+export const postTests = createTable('postTests', {
+  id: text('id').primaryKey().$defaultFn(createId),
+  title: varchar('title', { length: 255 }).notNull(),
+  description: text('description').notNull(),
+  startTime: timestamp('startTime', { mode: 'date', withTimezone: true }),
+  deadline: timestamp('deadline', {
+    mode: 'date',
+    withTimezone: true,
+  }).notNull(),
+  googleFormLink: varchar('googleFormLink', { length: 255 }).notNull(),
+});
+
+
 
 export type User = typeof users.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
