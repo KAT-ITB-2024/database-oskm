@@ -658,6 +658,18 @@ declare const assignmentSubmissions: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
+        point: drizzle_orm_pg_core.PgColumn<{
+            name: "point";
+            tableName: "assignmentSubmissions";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
         assignmentId: drizzle_orm_pg_core.PgColumn<{
             name: "assignmentId";
             tableName: "assignmentSubmissions";
@@ -935,7 +947,6 @@ declare const eventsCharactersRelations: drizzle_orm.Relations<"events", {
 }>;
 declare const eventsRelations: drizzle_orm.Relations<"events", {
     eventPresences: drizzle_orm.Many<"eventPresence">;
-    eventAssignments: drizzle_orm.Many<"eventAssignments">;
 }>;
 declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
     name: "eventPresence";
@@ -1031,53 +1042,6 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
 declare const eventPresencesRelations: drizzle_orm.Relations<"eventPresence", {
     event: drizzle_orm.One<"events", true>;
     user: drizzle_orm.One<"users", true>;
-}>;
-declare const eventAssignments: drizzle_orm_pg_core.PgTableWithColumns<{
-    name: "eventAssignments";
-    schema: undefined;
-    columns: {
-        id: drizzle_orm_pg_core.PgColumn<{
-            name: "id";
-            tableName: "eventAssignments";
-            dataType: "string";
-            columnType: "PgText";
-            data: string;
-            driverParam: string;
-            notNull: true;
-            hasDefault: true;
-            enumValues: [string, ...string[]];
-            baseColumn: never;
-        }, {}, {}>;
-        eventId: drizzle_orm_pg_core.PgColumn<{
-            name: "eventId";
-            tableName: "eventAssignments";
-            dataType: "string";
-            columnType: "PgText";
-            data: string;
-            driverParam: string;
-            notNull: true;
-            hasDefault: false;
-            enumValues: [string, ...string[]];
-            baseColumn: never;
-        }, {}, {}>;
-        assignmentId: drizzle_orm_pg_core.PgColumn<{
-            name: "assignmentId";
-            tableName: "eventAssignments";
-            dataType: "string";
-            columnType: "PgText";
-            data: string;
-            driverParam: string;
-            notNull: true;
-            hasDefault: false;
-            enumValues: [string, ...string[]];
-            baseColumn: never;
-        }, {}, {}>;
-    };
-    dialect: "pg";
-}>;
-declare const eventAssignmentsRelations: drizzle_orm.Relations<"eventAssignments", {
-    event: drizzle_orm.One<"events", true>;
-    assignment: drizzle_orm.One<"assignments", true>;
 }>;
 declare const classes: drizzle_orm_pg_core.PgTableWithColumns<{
     name: "classes";
@@ -1273,8 +1237,70 @@ declare const postTests: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
+        eventId: drizzle_orm_pg_core.PgColumn<{
+            name: "eventId";
+            tableName: "postTests";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
     };
     dialect: "pg";
+}>;
+declare const postTestSubmissions: drizzle_orm_pg_core.PgTableWithColumns<{
+    name: "postTestSubmissions";
+    schema: undefined;
+    columns: {
+        postTestId: drizzle_orm_pg_core.PgColumn<{
+            name: "postTestId";
+            tableName: "postTestSubmissions";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        userNim: drizzle_orm_pg_core.PgColumn<{
+            name: "userNim";
+            tableName: "postTestSubmissions";
+            dataType: "string";
+            columnType: "PgVarchar";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        createdAt: drizzle_orm_pg_core.PgColumn<{
+            name: "createdAt";
+            tableName: "postTestSubmissions";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+    };
+    dialect: "pg";
+}>;
+declare const postTestRelations: drizzle_orm.Relations<"postTests", {
+    event: drizzle_orm.One<"events", true>;
+}>;
+declare const postTestSubmissionRelations: drizzle_orm.Relations<"postTestSubmissions", {
+    postTest: drizzle_orm.One<"postTests", true>;
+    user: drizzle_orm.One<"users", true>;
 }>;
 type User = typeof users.$inferSelect;
 type Profile = typeof profiles.$inferSelect;
@@ -1285,11 +1311,13 @@ type AssignmentSubmission = typeof assignmentSubmissions.$inferSelect;
 type Character = typeof characters.$inferSelect;
 type Event = typeof events.$inferSelect;
 type EventPresence = typeof eventPresences.$inferSelect;
-type EventAssignment = typeof eventAssignments.$inferSelect;
 type ResetToken = typeof resetTokens.$inferSelect;
+type Class = typeof classes.$inferSelect;
+type PostTest = typeof postTests.$inferSelect;
+type PostTestSubmission = typeof postTestSubmissions.$inferSelect;
 type UserRole = (typeof roleEnum.enumValues)[number];
 type UserFaculty = (typeof facultyEnum.enumValues)[number];
 type UserGender = (typeof genderEnum.enumValues)[number];
 type UserCampus = (typeof campusEnum.enumValues)[number];
 
-export { type Assignment, type AssignmentSubmission, type Character, type Event, type EventAssignment, type EventPresence, type Message, type Profile, type ResetToken, type User, type UserCampus, type UserFaculty, type UserGender, type UserMatch, type UserRole, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, campusEnum, characters, classDayEnum, classUserRelations, classes, createTable, eventAssignments, eventAssignmentsRelations, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharactersRelations, eventsRelations, facultyEnum, genderEnum, lembagaEnum, messages, messagesRelations, postTests, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, resetTokenRelations, resetTokens, roleEnum, userMatches, userMatchesRelations, users, usersRelations };
+export { type Assignment, type AssignmentSubmission, type Character, type Class, type Event, type EventPresence, type Message, type PostTest, type PostTestSubmission, type Profile, type ResetToken, type User, type UserCampus, type UserFaculty, type UserGender, type UserMatch, type UserRole, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, campusEnum, characters, classDayEnum, classUserRelations, classes, createTable, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharactersRelations, eventsRelations, facultyEnum, genderEnum, lembagaEnum, messages, messagesRelations, postTestRelations, postTestSubmissionRelations, postTestSubmissions, postTests, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, resetTokenRelations, resetTokens, roleEnum, userMatches, userMatchesRelations, users, usersRelations };

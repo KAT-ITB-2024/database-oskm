@@ -1,5 +1,6 @@
 import { createId } from '@paralleldrive/cuid2';
 import { relations, sql } from 'drizzle-orm';
+import { int } from 'drizzle-orm/mysql-core';
 import {
   date,
   index,
@@ -12,6 +13,7 @@ import {
   unique,
   varchar,
   boolean,
+  primaryKey,
 } from 'drizzle-orm/pg-core';
 
 export const createTable = pgTableCreator((name) => `${name}`);
@@ -256,6 +258,7 @@ export const assignmentSubmissions = createTable(
   'assignmentSubmissions',
   {
     id: text('id').primaryKey().$defaultFn(createId),
+    point: integer('point'),
     assignmentId: text('assignmentId')
       .notNull()
       .references(() => assignments.id, { onDelete: 'cascade' }),
@@ -346,7 +349,6 @@ export const eventsCharactersRelations = relations(events, ({ one }) => ({
 
 export const eventsRelations = relations(events, ({ many }) => ({
   eventPresences: many(eventPresences),
-  eventAssignments: many(eventAssignments),
 }));
 
 // Event Presences
@@ -395,31 +397,6 @@ export const eventPresencesRelations = relations(eventPresences, ({ one }) => ({
   }),
 }));
 
-// Event Assignments
-export const eventAssignments = createTable('eventAssignments', {
-  id: text('id').primaryKey().$defaultFn(createId),
-  eventId: text('eventId')
-    .notNull()
-    .references(() => events.id, { onDelete: 'cascade' }),
-  assignmentId: text('assignmentId')
-    .notNull()
-    .references(() => assignments.id, { onDelete: 'cascade' }),
-});
-
-export const eventAssignmentsRelations = relations(
-  eventAssignments,
-  ({ one }) => ({
-    event: one(events, {
-      fields: [eventAssignments.eventId],
-      references: [events.id],
-    }),
-    assignment: one(assignments, {
-      fields: [eventAssignments.assignmentId],
-      references: [assignments.id],
-    }),
-  }),
-);
-
 export const classes = createTable('classes', {
   id: text('id').primaryKey().$defaultFn(createId),
   title: varchar('title', { length: 255 }).notNull(),
@@ -446,9 +423,55 @@ export const postTests = createTable('postTests', {
     withTimezone: true,
   }).notNull(),
   googleFormLink: varchar('googleFormLink', { length: 255 }).notNull(),
+  eventId: text('eventId')
+    .notNull()
+    .references(() => events.id),
 });
 
+export const postTestSubmissions = createTable(
+  'postTestSubmissions',
+  {
+    postTestId: text('postTestId')
+      .notNull()
+      .references(() => postTests.id),
+    userNim: varchar('userNim', { length: 100 })
+      .notNull()
+      .references(() => users.nim),
+    createdAt: timestamp('createdAt', {
+      mode: 'date',
+      withTimezone: true,
+    })
+      .notNull()
+      .defaultNow(),
+  },
+  (submission) => {
+    return {
+      pk: primaryKey({ columns: [submission.postTestId, submission.userNim] }),
+      userNimIdx: index('submission_usernim_idx').on(submission.userNim),
+    };
+  },
+);
 
+export const postTestRelations = relations(postTests, ({ one }) => ({
+  event: one(events, {
+    fields: [postTests.eventId],
+    references: [events.id],
+  }),
+}));
+
+export const postTestSubmissionRelations = relations(
+  postTestSubmissions,
+  ({ one }) => ({
+    postTest: one(postTests, {
+      fields: [postTestSubmissions.postTestId],
+      references: [postTests.id],
+    }),
+    user: one(users, {
+      fields: [postTestSubmissions.userNim],
+      references: [users.nim],
+    }),
+  }),
+);
 
 export type User = typeof users.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
@@ -459,8 +482,10 @@ export type AssignmentSubmission = typeof assignmentSubmissions.$inferSelect;
 export type Character = typeof characters.$inferSelect;
 export type Event = typeof events.$inferSelect;
 export type EventPresence = typeof eventPresences.$inferSelect;
-export type EventAssignment = typeof eventAssignments.$inferSelect;
 export type ResetToken = typeof resetTokens.$inferSelect;
+export type Class = typeof classes.$inferSelect;
+export type PostTest = typeof postTests.$inferSelect;
+export type PostTestSubmission = typeof postTestSubmissions.$inferSelect;
 
 export type UserRole = (typeof roleEnum.enumValues)[number];
 export type UserFaculty = (typeof facultyEnum.enumValues)[number];
