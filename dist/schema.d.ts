@@ -4,7 +4,7 @@ import * as drizzle_orm_pg_core from 'drizzle-orm/pg-core';
 declare const createTable: drizzle_orm_pg_core.PgTableFn<undefined>;
 declare const facultyEnum: drizzle_orm_pg_core.PgEnum<["FITB", "FMIPA", "FSRD", "FTMD", "FTTM", "FTSL", "FTI", "SAPPK", "SBM", "SF", "SITH", "STEI"]>;
 declare const lembagaEnum: drizzle_orm_pg_core.PgEnum<["HMJ", "Unit"]>;
-declare const roleEnum: drizzle_orm_pg_core.PgEnum<["Peserta", "Mentor", "Mamet"]>;
+declare const roleEnum: drizzle_orm_pg_core.PgEnum<["Peserta", "Mentor", "Mamet", "ITB-X"]>;
 declare const genderEnum: drizzle_orm_pg_core.PgEnum<["Male", "Female"]>;
 declare const campusEnum: drizzle_orm_pg_core.PgEnum<["Ganesha", "Jatinangor", "Cirebon"]>;
 declare const assignmentTypeEnum: drizzle_orm_pg_core.PgEnum<["Daily", "Side"]>;
@@ -45,11 +45,23 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
             tableName: "users";
             dataType: "string";
             columnType: "PgEnumColumn";
-            data: "Peserta" | "Mentor" | "Mamet";
+            data: "Peserta" | "Mentor" | "Mamet" | "ITB-X";
             driverParam: string;
             notNull: true;
             hasDefault: false;
-            enumValues: ["Peserta", "Mentor", "Mamet"];
+            enumValues: ["Peserta", "Mentor", "Mamet", "ITB-X"];
+            baseColumn: never;
+        }, {}, {}>;
+        email: drizzle_orm_pg_core.PgColumn<{
+            name: "email";
+            tableName: "users";
+            dataType: "string";
+            columnType: "PgVarchar";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
         password: drizzle_orm_pg_core.PgColumn<{
@@ -62,6 +74,18 @@ declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
             notNull: true;
             hasDefault: false;
             enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        activityPoints: drizzle_orm_pg_core.PgColumn<{
+            name: "activityPoints";
+            tableName: "users";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: true;
+            enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
         createdAt: drizzle_orm_pg_core.PgColumn<{
@@ -257,6 +281,42 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
             driverParam: string | number;
             notNull: true;
             hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+        mbti: drizzle_orm_pg_core.PgColumn<{
+            name: "mbti";
+            tableName: "profiles";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        favTopic: drizzle_orm_pg_core.PgColumn<{
+            name: "favTopic";
+            tableName: "profiles";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        rank: drizzle_orm_pg_core.PgColumn<{
+            name: "rank";
+            tableName: "profiles";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: false;
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;

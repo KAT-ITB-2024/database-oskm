@@ -1,6 +1,5 @@
 import { createId } from '@paralleldrive/cuid2';
 import { relations, sql } from 'drizzle-orm';
-import { int } from 'drizzle-orm/mysql-core';
 import {
   date,
   index,
@@ -120,6 +119,9 @@ export const profiles = createTable(
     ),
     totalMatch: integer('totalMatch').notNull().default(0),
     submittedQuest: integer('submittedQuest').notNull().default(0),
+    mbti: text('mbti'),
+    favTopic: text('favTopic'),
+    rank: integer('rank'),
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
