@@ -69,6 +69,7 @@ export const users = createTable(
     id: text('id').primaryKey().$defaultFn(createId),
     nim: varchar('nim', { length: 100 }).unique().notNull(),
     role: roleEnum('role').notNull(),
+    email: varchar('email', { length: 255 }).unique(),
     password: varchar('password', { length: 255 }).notNull(),
     activityPoints: integer('activityPoints').default(0),
     createdAt: timestamp('createdAt', { mode: 'date', withTimezone: true })
