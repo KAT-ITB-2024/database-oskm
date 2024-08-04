@@ -35,7 +35,7 @@ export const facultyEnum = pgEnum('faculty', [
 
 export const lembagaEnum = pgEnum('lembaga', ['HMJ', 'Unit']);
 
-export const roleEnum = pgEnum('role', ['Peserta', 'Mentor', 'Mamet']);
+export const roleEnum = pgEnum('role', ['Peserta', 'Mentor', 'Mamet', 'ITB-X']);
 
 export const genderEnum = pgEnum('gender', ['Male', 'Female']);
 
@@ -70,6 +70,7 @@ export const users = createTable(
     nim: varchar('nim', { length: 100 }).unique().notNull(),
     role: roleEnum('role').notNull(),
     password: varchar('password', { length: 255 }).notNull(),
+    activityPoints: integer('activityPoints').default(0),
     createdAt: timestamp('createdAt', { mode: 'date', withTimezone: true })
       .notNull()
       .defaultNow(),
