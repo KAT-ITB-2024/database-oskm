@@ -116,6 +116,8 @@ export const profiles = createTable(
     chosenClass: varchar('chosenClass', { length: 255 }).references(
       () => classes.id,
     ),
+    totalMatch: integer('totalMatch').notNull().default(0),
+    submittedQuest: integer('submittedQuest').notNull().default(0),
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
@@ -473,6 +475,17 @@ export const postTestSubmissionRelations = relations(
   }),
 );
 
+export const notifications = createTable('notifications', {
+  id: text('id').primaryKey().$defaultFn(createId),
+  content: text('content').notNull(),
+  createdAt: timestamp('createdAt', {
+    mode: 'date',
+    withTimezone: true,
+  })
+    .notNull()
+    .defaultNow(),
+});
+
 export type User = typeof users.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
 export type UserMatch = typeof userMatches.$inferSelect;
@@ -486,6 +499,7 @@ export type ResetToken = typeof resetTokens.$inferSelect;
 export type Class = typeof classes.$inferSelect;
 export type PostTest = typeof postTests.$inferSelect;
 export type PostTestSubmission = typeof postTestSubmissions.$inferSelect;
+export type Notifications = typeof notifications.$inferSelect;
 
 export type UserRole = (typeof roleEnum.enumValues)[number];
 export type UserFaculty = (typeof facultyEnum.enumValues)[number];
