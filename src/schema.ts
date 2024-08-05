@@ -38,13 +38,7 @@ export const roleEnum = pgEnum('role', ['Peserta', 'Mentor', 'Mamet', 'ITB-X']);
 
 export const genderEnum = pgEnum('gender', ['Male', 'Female']);
 
-export const campusEnum = pgEnum('campus', [
-  'Ganesha',
-  'Jatinangor',
-  'Cirebon',
-]);
-
-export const assignmentTypeEnum = pgEnum('assignmentType', ['Daily', 'Side']);
+export const assignmentTypeEnum = pgEnum('assignmentType', ['Main', 'Side']);
 
 export const presenceTypeEnum = pgEnum('presenceType', [
   'Hadir',
@@ -93,6 +87,7 @@ export const usersRelations = relations(users, ({ many, one }) => ({
   messagesAsReceiver: many(messages, { relationName: 'receiver' }),
   resetToken: one(resetTokens),
   chosenClass: one(classes),
+  wrappedProfile: one(wrappedProfiles),
 }));
 
 // Profiles
@@ -105,7 +100,6 @@ export const profiles = createTable(
       .references(() => users.id, { onDelete: 'cascade' }),
     faculty: facultyEnum('faculty').notNull(),
     gender: genderEnum('gender').notNull(),
-    campus: campusEnum('campus').notNull(),
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,
@@ -117,11 +111,6 @@ export const profiles = createTable(
     chosenClass: varchar('chosenClass', { length: 255 }).references(
       () => classes.id,
     ),
-    totalMatch: integer('totalMatch').notNull().default(0),
-    submittedQuest: integer('submittedQuest').notNull().default(0),
-    mbti: text('mbti'),
-    favTopic: text('favTopic'),
-    rank: integer('rank'),
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
@@ -490,6 +479,34 @@ export const notifications = createTable('notifications', {
     .defaultNow(),
 });
 
+export const wrappedProfiles = createTable(
+  'wrappedProfiles',
+  {
+    userId: text('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    totalMatch: integer('totalMatch').notNull().default(0),
+    submittedQuest: integer('submittedQuest').notNull().default(0),
+    mbti: text('mbti'),
+    favTopic: text('favTopic'),
+    rank: integer('rank'),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
+  },
+  (wrappedProfile) => ({
+    userIdIdx: index().on(wrappedProfile.userId),
+  }),
+);
+
+export const wrappedProfilesRelation = relations(wrappedProfiles, ({ one }) => ({
+  users: one(users, {
+    fields: [wrappedProfiles.userId],
+    references: [users.id],
+  }),
+}));
+
 export type User = typeof users.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
 export type UserMatch = typeof userMatches.$inferSelect;
@@ -508,4 +525,3 @@ export type Notifications = typeof notifications.$inferSelect;
 export type UserRole = (typeof roleEnum.enumValues)[number];
 export type UserFaculty = (typeof facultyEnum.enumValues)[number];
 export type UserGender = (typeof genderEnum.enumValues)[number];
-export type UserCampus = (typeof campusEnum.enumValues)[number];
