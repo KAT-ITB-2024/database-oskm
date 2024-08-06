@@ -90,6 +90,16 @@ export const usersRelations = relations(users, ({ many, one }) => ({
   wrappedProfile: one(wrappedProfiles),
 }));
 
+export const groups = createTable('groups', {
+  name: text('groupName').notNull().primaryKey(),
+  point: integer('point').notNull().default(0),
+});
+
+export const groupRelations = relations(groups, ({ many, one }) => ({
+  mentors: many(users),
+  students: many(users),
+}));
+
 // Profiles
 export const profiles = createTable(
   'profiles',
@@ -111,6 +121,9 @@ export const profiles = createTable(
     chosenClass: varchar('chosenClass', { length: 255 }).references(
       () => classes.id,
     ),
+    group: text('group')
+      .notNull()
+      .references(() => groups.name),
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
@@ -122,6 +135,10 @@ export const profilesRelations = relations(profiles, ({ one }) => ({
   users: one(users, {
     fields: [profiles.userId],
     references: [users.id],
+  }),
+  group: one(groups, {
+    fields: [profiles.group],
+    references: [groups.name],
   }),
 }));
 
@@ -161,6 +178,7 @@ export const userMatches = createTable('userMatches', {
   isAnonymous: boolean('isAnonymous')
     .notNull()
     .default(sql`false`),
+  lastMessage: text('lastMessage'),
   createdAt: timestamp('createdAt', { mode: 'date', withTimezone: true })
     .notNull()
     .defaultNow(),
@@ -500,12 +518,15 @@ export const wrappedProfiles = createTable(
   }),
 );
 
-export const wrappedProfilesRelation = relations(wrappedProfiles, ({ one }) => ({
-  users: one(users, {
-    fields: [wrappedProfiles.userId],
-    references: [users.id],
+export const wrappedProfilesRelation = relations(
+  wrappedProfiles,
+  ({ one }) => ({
+    users: one(users, {
+      fields: [wrappedProfiles.userId],
+      references: [users.id],
+    }),
   }),
-}));
+);
 
 export type User = typeof users.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
@@ -521,6 +542,8 @@ export type Class = typeof classes.$inferSelect;
 export type PostTest = typeof postTests.$inferSelect;
 export type PostTestSubmission = typeof postTestSubmissions.$inferSelect;
 export type Notifications = typeof notifications.$inferSelect;
+export type WrappedProfiles = typeof wrappedProfiles.$inferSelect;
+export type Groups = typeof groups.$inferSelect;
 
 export type UserRole = (typeof roleEnum.enumValues)[number];
 export type UserFaculty = (typeof facultyEnum.enumValues)[number];
