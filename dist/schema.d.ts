@@ -235,18 +235,6 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
-        groupNumber: drizzle_orm_pg_core.PgColumn<{
-            name: "groupNumber";
-            tableName: "profiles";
-            dataType: "number";
-            columnType: "PgInteger";
-            data: number;
-            driverParam: string | number;
-            notNull: true;
-            hasDefault: false;
-            enumValues: undefined;
-            baseColumn: never;
-        }, {}, {}>;
         point: drizzle_orm_pg_core.PgColumn<{
             name: "point";
             tableName: "profiles";
@@ -640,28 +628,17 @@ declare const assignments: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
-        files: drizzle_orm_pg_core.PgColumn<{
-            name: "files";
+        file: drizzle_orm_pg_core.PgColumn<{
+            name: "file";
             tableName: "assignments";
-            dataType: "array";
-            columnType: "PgArray";
-            data: string[];
-            driverParam: string | string[];
+            dataType: "string";
+            columnType: "PgVarchar";
+            data: string;
+            driverParam: string;
             notNull: false;
-            hasDefault: true;
+            hasDefault: false;
             enumValues: [string, ...string[]];
-            baseColumn: drizzle_orm.Column<{
-                name: "files";
-                tableName: "assignments";
-                dataType: "string";
-                columnType: "PgVarchar";
-                data: string;
-                driverParam: string;
-                notNull: false;
-                hasDefault: false;
-                enumValues: [string, ...string[]];
-                baseColumn: never;
-            }, object, object>;
+            baseColumn: never;
         }, {}, {}>;
         assignmentType: drizzle_orm_pg_core.PgColumn<{
             name: "assignmentType";
@@ -766,28 +743,17 @@ declare const assignmentSubmissions: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
-        files: drizzle_orm_pg_core.PgColumn<{
-            name: "files";
+        file: drizzle_orm_pg_core.PgColumn<{
+            name: "file";
             tableName: "assignmentSubmissions";
-            dataType: "array";
-            columnType: "PgArray";
-            data: string[];
-            driverParam: string | string[];
-            notNull: false;
-            hasDefault: true;
+            dataType: "string";
+            columnType: "PgVarchar";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
             enumValues: [string, ...string[]];
-            baseColumn: drizzle_orm.Column<{
-                name: "files";
-                tableName: "assignmentSubmissions";
-                dataType: "string";
-                columnType: "PgVarchar";
-                data: string;
-                driverParam: string;
-                notNull: false;
-                hasDefault: false;
-                enumValues: [string, ...string[]];
-                baseColumn: never;
-            }, object, object>;
+            baseColumn: never;
         }, {}, {}>;
         createdAt: drizzle_orm_pg_core.PgColumn<{
             name: "createdAt";
@@ -1457,8 +1423,8 @@ declare const wrappedProfiles: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
-        mbti: drizzle_orm_pg_core.PgColumn<{
-            name: "mbti";
+        personality: drizzle_orm_pg_core.PgColumn<{
+            name: "personality";
             tableName: "wrappedProfiles";
             dataType: "string";
             columnType: "PgText";

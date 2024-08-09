@@ -115,7 +115,6 @@ export const profiles = createTable(
       withTimezone: true,
     }).notNull(),
     profileImage: text('profileImage'),
-    groupNumber: integer('groupNumber').notNull(),
     point: integer('point'),
     instagram: varchar('instagram', { length: 255 }),
     chosenClass: varchar('chosenClass', { length: 255 }).references(
@@ -127,6 +126,7 @@ export const profiles = createTable(
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
+    groupIdx: index().on(profile.group),
     pointIdx: index().on(profile.point),
   }),
 );
@@ -249,9 +249,7 @@ export const assignments = createTable('assignments', {
     mode: 'date',
     withTimezone: true,
   }).notNull(),
-  files: varchar('files', { length: 255 })
-    .array()
-    .default(sql`ARRAY[]::varchar[]`),
+  file: varchar('file', { length: 255 }),
   assignmentType: assignmentTypeEnum('assignmentType').notNull(),
   point: integer('point'),
   createdAt: timestamp('createdAt', {
@@ -281,9 +279,7 @@ export const assignmentSubmissions = createTable(
         onDelete: 'cascade',
         onUpdate: 'cascade',
       }),
-    files: varchar('files', { length: 255 })
-      .array()
-      .default(sql`ARRAY[]::varchar[]`),
+    file: varchar('file', { length: 255 }).notNull(),
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
@@ -505,7 +501,7 @@ export const wrappedProfiles = createTable(
       .references(() => users.id, { onDelete: 'cascade' }),
     totalMatch: integer('totalMatch').notNull().default(0),
     submittedQuest: integer('submittedQuest').notNull().default(0),
-    mbti: text('mbti'),
+    personality: text('personality'),
     favTopic: text('favTopic'),
     rank: integer('rank'),
     updatedAt: timestamp('updatedAt', {
