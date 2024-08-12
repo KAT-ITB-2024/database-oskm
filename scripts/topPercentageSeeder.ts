@@ -25,11 +25,28 @@ export async function topPercentage(db: PostgresJsDatabase<typeof schema>) {
       throw new Error(`User not found`);
     }
 
-    await db
-      .update(wrappedProfiles)
-      .set({
-        rank: ((numOfUsers - i) / numOfUsers) * 100,
-      })
-      .where(eq(wrappedProfiles.userId, profile?.id));
+    const userRank = ((numOfUsers - i) / numOfUsers) * 100;
+
+    const wrappedProfile = await db
+      .select()
+      .from(wrappedProfiles)
+      .where(eq(wrappedProfiles.userId, profile.id))
+      .then((result) => result[0]);
+
+    if (!wrappedProfile) {
+      await db.insert(wrappedProfiles).values({
+        userId: profile.id,
+        updatedAt: new Date(),
+        rank: userRank,
+      });
+    } else {
+      await db
+        .update(wrappedProfiles)
+        .set({
+          rank: userRank,
+          updatedAt: new Date(),
+        })
+        .where(eq(wrappedProfiles.userId, profile?.id));
+    }
   }
 }
