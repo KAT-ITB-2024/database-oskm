@@ -55,6 +55,11 @@ export const presenceEventEnum = pgEnum('presenceEvent', [
 
 export const classDayEnum = pgEnum('classDay', ['Day 1', 'Day 2']);
 
+export const merchandiseExchangeStatusEnum = pgEnum('status', [
+  'Taken',
+  'Not Taken',
+]);
+
 // Users
 export const users = createTable(
   'users',
@@ -524,6 +529,92 @@ export const wrappedProfilesRelation = relations(
   }),
 );
 
+export const merchandises = createTable('merchandises', {
+  id: text('id').primaryKey().$defaultFn(createId),
+  name: varchar('name', { length: 255 }).notNull(),
+  price: integer('price').notNull(),
+  stock: integer('stock').notNull(),
+  image: text('image').notNull(),
+  createdAt: timestamp('createdAt', {
+    mode: 'date',
+    withTimezone: true,
+  })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp('updatedAt', {
+    mode: 'date',
+    withTimezone: true,
+  }).notNull(),
+});
+
+export const merchandiseRelations = relations(merchandises, ({ many }) => ({
+  merchandiseExchangeDetails: many(merchandiseExchangeDetails),
+}));
+
+export const merchandiseExchanges = createTable('merchandiseExchanges', {
+  id: text('id').primaryKey().$defaultFn(createId),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  status: merchandiseExchangeStatusEnum('status').notNull(),
+  createdAt: timestamp('createdAt', {
+    mode: 'date',
+    withTimezone: true,
+  })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp('updatedAt', {
+    mode: 'date',
+    withTimezone: true,
+  }).notNull(),
+});
+
+export const merchandiseExchangeRelations = relations(
+  merchandiseExchanges,
+  ({ one, many }) => ({
+    user: one(users, {
+      fields: [merchandiseExchanges.userId],
+      references: [users.id],
+    }),
+    merchandiseExchangeDetails: many(merchandiseExchangeDetails),
+  }),
+);
+
+export const merchandiseExchangeDetails = createTable(
+  'merchandiseExchangeDetails',
+  {
+    merchandiseExchangeId: text('merchandiseExchangeId')
+      .notNull()
+      .references(() => merchandiseExchanges.id, { onDelete: 'cascade' }),
+    merchandiseId: text('merchandiseId')
+      .notNull()
+      .references(() => merchandises.id),
+    quantity: integer('quantity').notNull(),
+  },
+  (exchangeDetail) => ({
+    pk: primaryKey({
+      columns: [
+        exchangeDetail.merchandiseExchangeId,
+        exchangeDetail.merchandiseId,
+      ],
+    }),
+  }),
+);
+
+export const merchandiseExchangeDetailsRelations = relations(
+  merchandiseExchangeDetails,
+  ({ one }) => ({
+    merchandiseExchange: one(merchandiseExchanges, {
+      fields: [merchandiseExchangeDetails.merchandiseExchangeId],
+      references: [merchandiseExchanges.id],
+    }),
+    merchandise: one(merchandises, {
+      fields: [merchandiseExchangeDetails.merchandiseId],
+      references: [merchandises.id],
+    }),
+  }),
+);
+
 export type User = typeof users.$inferSelect;
 export type Profile = typeof profiles.$inferSelect;
 export type UserMatch = typeof userMatches.$inferSelect;
@@ -540,6 +631,9 @@ export type PostTestSubmission = typeof postTestSubmissions.$inferSelect;
 export type Notifications = typeof notifications.$inferSelect;
 export type WrappedProfiles = typeof wrappedProfiles.$inferSelect;
 export type Groups = typeof groups.$inferSelect;
+export type Merchandise = typeof merchandises.$inferSelect;
+export type MerchandiseExchange = typeof merchandiseExchanges.$inferSelect;
+export type MerchandiseExchangeDetail = typeof merchandiseExchangeDetails.$inferSelect;
 
 export type UserRole = (typeof roleEnum.enumValues)[number];
 export type UserFaculty = (typeof facultyEnum.enumValues)[number];
