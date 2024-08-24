@@ -1,0 +1,1 @@
+ALTER TABLE "assignmentSubmissions" ALTER COLUMN "file" SET DATA TYPE text;

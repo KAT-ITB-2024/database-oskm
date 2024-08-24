@@ -748,7 +748,7 @@ declare const assignmentSubmissions: drizzle_orm_pg_core.PgTableWithColumns<{
             name: "file";
             tableName: "assignmentSubmissions";
             dataType: "string";
-            columnType: "PgVarchar";
+            columnType: "PgText";
             data: string;
             driverParam: string;
             notNull: true;
