@@ -277,7 +277,7 @@ export const assignmentSubmissions = createTable(
   'assignmentSubmissions',
   {
     id: text('id').primaryKey().$defaultFn(createId),
-    point: integer('point').notNull(),
+    point: integer('point').default(0),
     assignmentId: text('assignmentId')
       .notNull()
       .references(() => assignments.id, { onDelete: 'cascade' }),
