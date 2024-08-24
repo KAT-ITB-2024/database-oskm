@@ -612,7 +612,7 @@ declare const assignments: drizzle_orm_pg_core.PgTableWithColumns<{
             columnType: "PgTimestamp";
             data: Date;
             driverParam: string;
-            notNull: false;
+            notNull: true;
             hasDefault: false;
             enumValues: undefined;
             baseColumn: never;
@@ -660,7 +660,7 @@ declare const assignments: drizzle_orm_pg_core.PgTableWithColumns<{
             columnType: "PgInteger";
             data: number;
             driverParam: string | number;
-            notNull: false;
+            notNull: true;
             hasDefault: false;
             enumValues: undefined;
             baseColumn: never;
@@ -715,7 +715,7 @@ declare const assignmentSubmissions: drizzle_orm_pg_core.PgTableWithColumns<{
             columnType: "PgInteger";
             data: number;
             driverParam: string | number;
-            notNull: false;
+            notNull: true;
             hasDefault: false;
             enumValues: undefined;
             baseColumn: never;

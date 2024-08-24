@@ -249,14 +249,17 @@ export const assignments = createTable('assignments', {
   id: text('id').primaryKey().$defaultFn(createId),
   title: varchar('title', { length: 255 }).notNull(),
   description: text('description').notNull(),
-  startTime: timestamp('startTime', { mode: 'date', withTimezone: true }),
+  startTime: timestamp('startTime', {
+    mode: 'date',
+    withTimezone: true,
+  }).notNull(),
   deadline: timestamp('deadline', {
     mode: 'date',
     withTimezone: true,
   }).notNull(),
   file: varchar('file', { length: 255 }),
   assignmentType: assignmentTypeEnum('assignmentType').notNull(),
-  point: integer('point'),
+  point: integer('point').notNull(),
   createdAt: timestamp('createdAt', {
     mode: 'date',
     withTimezone: true,
@@ -274,7 +277,7 @@ export const assignmentSubmissions = createTable(
   'assignmentSubmissions',
   {
     id: text('id').primaryKey().$defaultFn(createId),
-    point: integer('point'),
+    point: integer('point').notNull(),
     assignmentId: text('assignmentId')
       .notNull()
       .references(() => assignments.id, { onDelete: 'cascade' }),
@@ -633,7 +636,8 @@ export type WrappedProfiles = typeof wrappedProfiles.$inferSelect;
 export type Groups = typeof groups.$inferSelect;
 export type Merchandise = typeof merchandises.$inferSelect;
 export type MerchandiseExchange = typeof merchandiseExchanges.$inferSelect;
-export type MerchandiseExchangeDetail = typeof merchandiseExchangeDetails.$inferSelect;
+export type MerchandiseExchangeDetail =
+  typeof merchandiseExchangeDetails.$inferSelect;
 
 export type UserRole = (typeof roleEnum.enumValues)[number];
 export type UserFaculty = (typeof facultyEnum.enumValues)[number];
