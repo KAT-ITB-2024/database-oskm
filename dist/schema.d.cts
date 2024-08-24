@@ -744,8 +744,20 @@ declare const assignmentSubmissions: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
-        file: drizzle_orm_pg_core.PgColumn<{
-            name: "file";
+        filename: drizzle_orm_pg_core.PgColumn<{
+            name: "filename";
+            tableName: "assignmentSubmissions";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        downloadUrl: drizzle_orm_pg_core.PgColumn<{
+            name: "downloadUrl";
             tableName: "assignmentSubmissions";
             dataType: "string";
             columnType: "PgText";

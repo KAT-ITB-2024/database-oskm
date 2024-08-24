@@ -287,7 +287,8 @@ export const assignmentSubmissions = createTable(
         onDelete: 'cascade',
         onUpdate: 'cascade',
       }),
-    file: text('file').notNull(),
+    filename: text('filename').notNull(),
+    downloadUrl: text('downloadUrl').notNull(),
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
