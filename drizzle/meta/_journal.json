@@ -134,6 +134,13 @@
       "when": 1724521578068,
       "tag": "0018_abnormal_firestar",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1724596115914,
+      "tag": "0019_massive_moon_knight",
+      "breakpoints": true
     }
   ]
 }

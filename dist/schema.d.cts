@@ -617,6 +617,30 @@ declare const assignments: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
+        filename: drizzle_orm_pg_core.PgColumn<{
+            name: "filename";
+            tableName: "assignments";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        downloadUrl: drizzle_orm_pg_core.PgColumn<{
+            name: "downloadUrl";
+            tableName: "assignments";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
         deadline: drizzle_orm_pg_core.PgColumn<{
             name: "deadline";
             tableName: "assignments";
@@ -627,18 +651,6 @@ declare const assignments: drizzle_orm_pg_core.PgTableWithColumns<{
             notNull: true;
             hasDefault: false;
             enumValues: undefined;
-            baseColumn: never;
-        }, {}, {}>;
-        file: drizzle_orm_pg_core.PgColumn<{
-            name: "file";
-            tableName: "assignments";
-            dataType: "string";
-            columnType: "PgVarchar";
-            data: string;
-            driverParam: string;
-            notNull: false;
-            hasDefault: false;
-            enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
         assignmentType: drizzle_orm_pg_core.PgColumn<{

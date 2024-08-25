@@ -253,11 +253,13 @@ export const assignments = createTable('assignments', {
     mode: 'date',
     withTimezone: true,
   }).notNull(),
+  filename: text('filename').notNull(),
+  downloadUrl: text('downloadUrl').notNull(),
   deadline: timestamp('deadline', {
     mode: 'date',
     withTimezone: true,
   }).notNull(),
-  file: varchar('file', { length: 255 }),
+
   assignmentType: assignmentTypeEnum('assignmentType').notNull(),
   point: integer('point').notNull(),
   createdAt: timestamp('createdAt', {
