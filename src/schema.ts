@@ -109,10 +109,11 @@ export const groupRelations = relations(groups, ({ many, one }) => ({
 export const profiles = createTable(
   'profiles',
   {
-    name: varchar('name', { length: 255 }).notNull(),
     userId: text('userId')
       .notNull()
+      .primaryKey()
       .references(() => users.id, { onDelete: 'cascade' }),
+    name: varchar('name', { length: 255 }).notNull(),
     faculty: facultyEnum('faculty').notNull(),
     gender: genderEnum('gender').notNull(),
     updatedAt: timestamp('updatedAt', {

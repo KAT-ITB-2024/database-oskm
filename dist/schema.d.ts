@@ -164,11 +164,11 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
     name: "profiles";
     schema: undefined;
     columns: {
-        name: drizzle_orm_pg_core.PgColumn<{
-            name: "name";
+        userId: drizzle_orm_pg_core.PgColumn<{
+            name: "userId";
             tableName: "profiles";
             dataType: "string";
-            columnType: "PgVarchar";
+            columnType: "PgText";
             data: string;
             driverParam: string;
             notNull: true;
@@ -176,11 +176,11 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
-        userId: drizzle_orm_pg_core.PgColumn<{
-            name: "userId";
+        name: drizzle_orm_pg_core.PgColumn<{
+            name: "name";
             tableName: "profiles";
             dataType: "string";
-            columnType: "PgText";
+            columnType: "PgVarchar";
             data: string;
             driverParam: string;
             notNull: true;
