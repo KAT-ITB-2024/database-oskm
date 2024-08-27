@@ -122,6 +122,7 @@ export const profiles = createTable(
     profileImage: text('profileImage'),
     point: integer('point'),
     instagram: varchar('instagram', { length: 255 }),
+    bio: varchar('bio', { length: 255 }),
     chosenClass: varchar('chosenClass', { length: 255 }).references(
       () => classes.id,
     ),

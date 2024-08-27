@@ -141,6 +141,13 @@
       "when": 1724596115914,
       "tag": "0019_massive_moon_knight",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1724728143652,
+      "tag": "0020_overconfident_blue_blade",
+      "breakpoints": true
     }
   ]
 }

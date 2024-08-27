@@ -260,6 +260,18 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
+        bio: drizzle_orm_pg_core.PgColumn<{
+            name: "bio";
+            tableName: "profiles";
+            dataType: "string";
+            columnType: "PgVarchar";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
         chosenClass: drizzle_orm_pg_core.PgColumn<{
             name: "chosenClass";
             tableName: "profiles";
