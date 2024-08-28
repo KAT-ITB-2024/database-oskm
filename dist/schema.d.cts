@@ -12,6 +12,7 @@ declare const eventDayEnum: drizzle_orm_pg_core.PgEnum<["Day 1", "Day 2", "Day 3
 declare const presenceEventEnum: drizzle_orm_pg_core.PgEnum<["Opening", "Closing"]>;
 declare const classDayEnum: drizzle_orm_pg_core.PgEnum<["Day 1", "Day 2"]>;
 declare const merchandiseExchangeStatusEnum: drizzle_orm_pg_core.PgEnum<["Taken", "Not Taken"]>;
+declare const classEnum: drizzle_orm_pg_core.PgEnum<["Sesi 1", "Sesi 2"]>;
 declare const users: drizzle_orm_pg_core.PgTableWithColumns<{
     name: "users";
     schema: undefined;
@@ -1242,6 +1243,18 @@ declare const classes: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
+        type: drizzle_orm_pg_core.PgColumn<{
+            name: "class";
+            tableName: "classes";
+            dataType: "string";
+            columnType: "PgEnumColumn";
+            data: "Peserta" | "Mentor" | "Mamet" | "ITB-X";
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: ["Peserta", "Mentor", "Mamet", "ITB-X"];
+            baseColumn: never;
+        }, {}, {}>;
     };
     dialect: "pg";
 }>;
@@ -1767,4 +1780,4 @@ type PresenceEvent = (typeof presenceEventEnum.enumValues)[number];
 type ClassDay = (typeof classDayEnum.enumValues)[number];
 type Lembaga = (typeof lembagaEnum.enumValues)[number];
 
-export { type Assignment, type AssignmentSubmission, type AssignmentType, type Character, type Class, type ClassDay, type Event, type EventDay, type EventPresence, type Groups, type Lembaga, type Merchandise, type MerchandiseExchange, type MerchandiseExchangeDetail, type Message, type Notifications, type PostTest, type PostTestSubmission, type PresenceEvent, type PresenceType, type Profile, type ResetToken, type User, type UserFaculty, type UserGender, type UserMatch, type UserRole, type WrappedProfiles, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, characters, classDayEnum, classUserRelations, classes, createTable, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharactersRelations, eventsRelations, facultyEnum, genderEnum, groupRelations, groups, lembagaEnum, merchandiseExchangeDetails, merchandiseExchangeDetailsRelations, merchandiseExchangeRelations, merchandiseExchangeStatusEnum, merchandiseExchanges, merchandiseRelations, merchandises, messages, messagesRelations, notifications, postTestRelations, postTestSubmissionRelations, postTestSubmissions, postTests, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, resetTokenRelations, resetTokens, roleEnum, userMatches, userMatchesRelations, users, usersRelations, wrappedProfiles, wrappedProfilesRelation };
+export { type Assignment, type AssignmentSubmission, type AssignmentType, type Character, type Class, type ClassDay, type Event, type EventDay, type EventPresence, type Groups, type Lembaga, type Merchandise, type MerchandiseExchange, type MerchandiseExchangeDetail, type Message, type Notifications, type PostTest, type PostTestSubmission, type PresenceEvent, type PresenceType, type Profile, type ResetToken, type User, type UserFaculty, type UserGender, type UserMatch, type UserRole, type WrappedProfiles, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, characters, classDayEnum, classEnum, classUserRelations, classes, createTable, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharactersRelations, eventsRelations, facultyEnum, genderEnum, groupRelations, groups, lembagaEnum, merchandiseExchangeDetails, merchandiseExchangeDetailsRelations, merchandiseExchangeRelations, merchandiseExchangeStatusEnum, merchandiseExchanges, merchandiseRelations, merchandises, messages, messagesRelations, notifications, postTestRelations, postTestSubmissionRelations, postTestSubmissions, postTests, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, resetTokenRelations, resetTokens, roleEnum, userMatches, userMatchesRelations, users, usersRelations, wrappedProfiles, wrappedProfilesRelation };

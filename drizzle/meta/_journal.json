@@ -162,6 +162,13 @@
       "when": 1724858071754,
       "tag": "0022_blushing_thunderbird",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1724858944513,
+      "tag": "0023_gorgeous_zuras",
+      "breakpoints": true
     }
   ]
 }
