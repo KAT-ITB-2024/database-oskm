@@ -98,6 +98,7 @@ export const usersRelations = relations(users, ({ many, one }) => ({
 export const groups = createTable('groups', {
   name: text('groupName').notNull().primaryKey(),
   point: integer('point').notNull().default(0),
+  bata: text('bata').notNull(),
 });
 
 export const groupRelations = relations(groups, ({ many, one }) => ({

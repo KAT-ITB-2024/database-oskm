@@ -155,6 +155,13 @@
       "when": 1724745946454,
       "tag": "0021_silly_vengeance",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1724858071754,
+      "tag": "0022_blushing_thunderbird",
+      "breakpoints": true
     }
   ]
 }
