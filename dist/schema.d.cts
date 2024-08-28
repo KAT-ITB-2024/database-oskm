@@ -1248,11 +1248,11 @@ declare const classes: drizzle_orm_pg_core.PgTableWithColumns<{
             tableName: "classes";
             dataType: "string";
             columnType: "PgEnumColumn";
-            data: "Peserta" | "Mentor" | "Mamet" | "ITB-X";
+            data: "Sesi 1" | "Sesi 2";
             driverParam: string;
             notNull: true;
             hasDefault: false;
-            enumValues: ["Peserta", "Mentor", "Mamet", "ITB-X"];
+            enumValues: ["Sesi 1", "Sesi 2"];
             baseColumn: never;
         }, {}, {}>;
     };

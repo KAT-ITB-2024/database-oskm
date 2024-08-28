@@ -432,7 +432,7 @@ export const classes = createTable('classes', {
   date: timestamp('date', { mode: 'date', withTimezone: true }).notNull(),
   totalSeats: integer('totalSeats').notNull(),
   reservedSeats: integer('reservedSeats').default(0),
-  type: roleEnum('class').notNull(),
+  type: classEnum('class').notNull(),
 });
 
 export const classUserRelations = relations(classes, ({ many }) => ({

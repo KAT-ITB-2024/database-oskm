@@ -169,6 +169,13 @@
       "when": 1724858944513,
       "tag": "0023_gorgeous_zuras",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1724859780225,
+      "tag": "0024_early_human_robot",
+      "breakpoints": true
     }
   ]
 }
