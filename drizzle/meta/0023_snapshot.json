@@ -1,5 +1,5 @@
 {
-  "id": "e6c7bca6-8889-4154-afed-d10429312756",
+  "id": "580dd9d0-abbc-46e3-b650-4b8e6cb3da32",
   "prevId": "f7a45919-df05-4dfe-83fb-f16ac4eda84d",
   "version": "7",
   "dialect": "postgresql",
@@ -266,9 +266,9 @@
           "notNull": false,
           "default": 0
         },
-        "class": {
-          "name": "class",
-          "type": "role",
+        "classSession": {
+          "name": "classSession",
+          "type": "class",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true

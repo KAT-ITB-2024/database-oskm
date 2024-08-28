@@ -60,7 +60,7 @@ export const merchandiseExchangeStatusEnum = pgEnum('status', [
   'Not Taken',
 ]);
 
-export const classEnum = pgEnum('class', ['Sesi 1', 'Sesi 2']);
+export const classSessionEnum = pgEnum('class', ['Sesi 1', 'Sesi 2']);
 
 // Users
 export const users = createTable(
@@ -432,7 +432,7 @@ export const classes = createTable('classes', {
   date: timestamp('date', { mode: 'date', withTimezone: true }).notNull(),
   totalSeats: integer('totalSeats').notNull(),
   reservedSeats: integer('reservedSeats').default(0),
-  type: classEnum('class').notNull(),
+  type: classSessionEnum('classSession').notNull(),
 });
 
 export const classUserRelations = relations(classes, ({ many }) => ({

@@ -1,1 +1,0 @@
-ALTER TABLE "classes" ALTER COLUMN "class" SET DATA TYPE class;

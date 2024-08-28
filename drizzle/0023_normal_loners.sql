@@ -4,4 +4,4 @@ EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
-ALTER TABLE "classes" ADD COLUMN "class" "role" NOT NULL;
+ALTER TABLE "classes" ADD COLUMN "classSession" "class" NOT NULL;
