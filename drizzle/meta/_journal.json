@@ -169,6 +169,13 @@
       "when": 1724860661695,
       "tag": "0023_normal_loners",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1725028374925,
+      "tag": "0024_pretty_quicksilver",
+      "breakpoints": true
     }
   ]
 }

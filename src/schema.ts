@@ -61,7 +61,13 @@ export const merchandiseExchangeStatusEnum = pgEnum('status', [
 ]);
 
 export const classSessionEnum = pgEnum('class', ['Sesi 1', 'Sesi 2']);
-
+export const MBTIEnum = pgEnum('MBTI', [
+  'Mova',
+  'Kovva',
+  'Ozirron',
+  'Sylas',
+  'Odra',
+]);
 // Users
 export const users = createTable(
   'users',
@@ -133,6 +139,7 @@ export const profiles = createTable(
     group: text('group')
       .notNull()
       .references(() => groups.name),
+    lastMBTI: MBTIEnum('lastMBTI'),
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
