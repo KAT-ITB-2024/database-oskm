@@ -482,7 +482,9 @@ export const wrappedProfiles = createTable(
   {
     userId: text('userId')
       .notNull()
-      .references(() => users.id, { onDelete: 'cascade' }),
+      .references(() => users.id, { onDelete: 'cascade' })
+      .primaryKey(),
+    name: text('name').notNull(),
     totalMatch: integer('totalMatch').notNull().default(0),
     submittedQuest: integer('submittedQuest').notNull().default(0),
     character: text('character'),
@@ -491,8 +493,8 @@ export const wrappedProfiles = createTable(
     favTopics: text('favTopics')
       .array()
       .default(sql`ARRAY[]::text[]`),
-    rank: integer('rank'),
-    rankPercentage: integer('rankPercentage'),
+    rank: integer('rank').notNull(),
+    rankPercentage: integer('rankPercentage').notNull(),
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,

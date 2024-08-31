@@ -1403,6 +1403,18 @@ declare const wrappedProfiles: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
+        name: drizzle_orm_pg_core.PgColumn<{
+            name: "name";
+            tableName: "wrappedProfiles";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
         totalMatch: drizzle_orm_pg_core.PgColumn<{
             name: "totalMatch";
             tableName: "wrappedProfiles";
@@ -1493,7 +1505,7 @@ declare const wrappedProfiles: drizzle_orm_pg_core.PgTableWithColumns<{
             columnType: "PgInteger";
             data: number;
             driverParam: string | number;
-            notNull: false;
+            notNull: true;
             hasDefault: false;
             enumValues: undefined;
             baseColumn: never;
@@ -1505,7 +1517,7 @@ declare const wrappedProfiles: drizzle_orm_pg_core.PgTableWithColumns<{
             columnType: "PgInteger";
             data: number;
             driverParam: string | number;
-            notNull: false;
+            notNull: true;
             hasDefault: false;
             enumValues: undefined;
             baseColumn: never;
