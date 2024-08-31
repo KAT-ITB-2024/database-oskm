@@ -459,7 +459,6 @@ export const postTests = createTable('postTests', {
     .references(() => events.id),
 });
 
-
 export const postTestRelations = relations(postTests, ({ one }) => ({
   event: one(events, {
     fields: [postTests.eventId],
@@ -486,9 +485,14 @@ export const wrappedProfiles = createTable(
       .references(() => users.id, { onDelete: 'cascade' }),
     totalMatch: integer('totalMatch').notNull().default(0),
     submittedQuest: integer('submittedQuest').notNull().default(0),
+    character: text('character'),
     personality: text('personality'),
-    favTopic: text('favTopic'),
+    personalityDesc: text('personalityDesc'),
+    favTopics: text('favTopics')
+      .array()
+      .default(sql`ARRAY[]::text[]`),
     rank: integer('rank'),
+    rankPercentage: integer('rankPercentage'),
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,

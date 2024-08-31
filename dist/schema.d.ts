@@ -1427,6 +1427,18 @@ declare const wrappedProfiles: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
+        character: drizzle_orm_pg_core.PgColumn<{
+            name: "character";
+            tableName: "wrappedProfiles";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
         personality: drizzle_orm_pg_core.PgColumn<{
             name: "personality";
             tableName: "wrappedProfiles";
@@ -1439,8 +1451,8 @@ declare const wrappedProfiles: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
-        favTopic: drizzle_orm_pg_core.PgColumn<{
-            name: "favTopic";
+        personalityDesc: drizzle_orm_pg_core.PgColumn<{
+            name: "personalityDesc";
             tableName: "wrappedProfiles";
             dataType: "string";
             columnType: "PgText";
@@ -1451,8 +1463,43 @@ declare const wrappedProfiles: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
+        favTopics: drizzle_orm_pg_core.PgColumn<{
+            name: "favTopics";
+            tableName: "wrappedProfiles";
+            dataType: "array";
+            columnType: "PgArray";
+            data: string[];
+            driverParam: string | string[];
+            notNull: false;
+            hasDefault: true;
+            enumValues: [string, ...string[]];
+            baseColumn: drizzle_orm.Column<{
+                name: "favTopics";
+                tableName: "wrappedProfiles";
+                dataType: "string";
+                columnType: "PgText";
+                data: string;
+                driverParam: string;
+                notNull: false;
+                hasDefault: false;
+                enumValues: [string, ...string[]];
+                baseColumn: never;
+            }, object, object>;
+        }, {}, {}>;
         rank: drizzle_orm_pg_core.PgColumn<{
             name: "rank";
+            tableName: "wrappedProfiles";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+        rankPercentage: drizzle_orm_pg_core.PgColumn<{
+            name: "rankPercentage";
             tableName: "wrappedProfiles";
             dataType: "number";
             columnType: "PgInteger";

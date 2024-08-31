@@ -1,0 +1,1 @@
+ALTER TABLE "wrappedProfiles" ADD COLUMN "favTopics" text[] DEFAULT ARRAY[]::text[];
