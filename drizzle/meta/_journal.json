@@ -176,6 +176,13 @@
       "when": 1725028374925,
       "tag": "0024_pretty_quicksilver",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1725076920178,
+      "tag": "0025_round_calypso",
+      "breakpoints": true
     }
   ]
 }

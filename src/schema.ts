@@ -448,8 +448,6 @@ export const classUserRelations = relations(classes, ({ many }) => ({
 
 export const postTests = createTable('postTests', {
   id: text('id').primaryKey().$defaultFn(createId),
-  title: varchar('title', { length: 255 }).notNull(),
-  description: text('description').notNull(),
   startTime: timestamp('startTime', { mode: 'date', withTimezone: true }),
   deadline: timestamp('deadline', {
     mode: 'date',
@@ -461,29 +459,6 @@ export const postTests = createTable('postTests', {
     .references(() => events.id),
 });
 
-export const postTestSubmissions = createTable(
-  'postTestSubmissions',
-  {
-    postTestId: text('postTestId')
-      .notNull()
-      .references(() => postTests.id),
-    userNim: varchar('userNim', { length: 100 })
-      .notNull()
-      .references(() => users.nim),
-    createdAt: timestamp('createdAt', {
-      mode: 'date',
-      withTimezone: true,
-    })
-      .notNull()
-      .defaultNow(),
-  },
-  (submission) => {
-    return {
-      pk: primaryKey({ columns: [submission.postTestId, submission.userNim] }),
-      userNimIdx: index('submission_usernim_idx').on(submission.userNim),
-    };
-  },
-);
 
 export const postTestRelations = relations(postTests, ({ one }) => ({
   event: one(events, {
@@ -491,20 +466,6 @@ export const postTestRelations = relations(postTests, ({ one }) => ({
     references: [events.id],
   }),
 }));
-
-export const postTestSubmissionRelations = relations(
-  postTestSubmissions,
-  ({ one }) => ({
-    postTest: one(postTests, {
-      fields: [postTestSubmissions.postTestId],
-      references: [postTests.id],
-    }),
-    user: one(users, {
-      fields: [postTestSubmissions.userNim],
-      references: [users.nim],
-    }),
-  }),
-);
 
 export const notifications = createTable('notifications', {
   id: text('id').primaryKey().$defaultFn(createId),
@@ -646,7 +607,6 @@ export type EventPresence = typeof eventPresences.$inferSelect;
 export type ResetToken = typeof resetTokens.$inferSelect;
 export type Class = typeof classes.$inferSelect;
 export type PostTest = typeof postTests.$inferSelect;
-export type PostTestSubmission = typeof postTestSubmissions.$inferSelect;
 export type Notifications = typeof notifications.$inferSelect;
 export type WrappedProfiles = typeof wrappedProfiles.$inferSelect;
 export type Groups = typeof groups.$inferSelect;
