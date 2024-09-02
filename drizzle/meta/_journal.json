@@ -204,6 +204,13 @@
       "when": 1725106224293,
       "tag": "0028_parallel_quasar",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1725238549627,
+      "tag": "0029_next_agent_brand",
+      "breakpoints": true
     }
   ]
 }

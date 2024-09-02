@@ -1113,6 +1113,18 @@ declare const eventPresences: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: ["Opening", "Closing"];
             baseColumn: never;
         }, {}, {}>;
+        remarks: drizzle_orm_pg_core.PgColumn<{
+            name: "remarks";
+            tableName: "eventPresence";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
         createdAt: drizzle_orm_pg_core.PgColumn<{
             name: "createdAt";
             tableName: "eventPresence";

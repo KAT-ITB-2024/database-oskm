@@ -1,0 +1,1 @@
+ALTER TABLE "eventPresence" ADD COLUMN "remarks" text;

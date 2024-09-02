@@ -396,6 +396,7 @@ export const eventPresences = createTable(
       .references(() => users.nim),
     presenceType: presenceTypeEnum('presenceType').notNull(),
     presenceEvent: presenceEventEnum('presenceEvent').notNull(),
+    remarks: text('remarks'), // keterangan
     createdAt: timestamp('createdAt', {
       mode: 'date',
       withTimezone: true,
