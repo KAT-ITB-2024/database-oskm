@@ -3,7 +3,7 @@ import * as drizzle_orm_pg_core from 'drizzle-orm/pg-core';
 
 declare const createTable: drizzle_orm_pg_core.PgTableFn<undefined>;
 declare const facultyEnum: drizzle_orm_pg_core.PgEnum<["FITB", "FMIPA", "FSRD", "FTMD", "FTTM", "FTSL", "FTI", "SAPPK", "SBM", "SF", "SITH", "STEI"]>;
-declare const lembagaEnum: drizzle_orm_pg_core.PgEnum<["HMJ", "Unit"]>;
+declare const lembagaEnum: drizzle_orm_pg_core.PgEnum<["BSO", "UKM", "HMPS", "Pusat", "Eksternal"]>;
 declare const roleEnum: drizzle_orm_pg_core.PgEnum<["Peserta", "Mentor", "Mamet", "ITB-X"]>;
 declare const genderEnum: drizzle_orm_pg_core.PgEnum<["Male", "Female"]>;
 declare const assignmentTypeEnum: drizzle_orm_pg_core.PgEnum<["Main", "Side"]>;
@@ -320,6 +320,18 @@ declare const profiles: drizzle_orm_pg_core.PgTableWithColumns<{
             notNull: false;
             hasDefault: false;
             enumValues: ["Mova", "Kovva", "Ozirron", "Sylas", "Odra"];
+            baseColumn: never;
+        }, {}, {}>;
+        coins: drizzle_orm_pg_core.PgColumn<{
+            name: "coins";
+            tableName: "profiles";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: true;
+            enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
     };
@@ -1552,6 +1564,169 @@ declare const wrappedProfiles: drizzle_orm_pg_core.PgTableWithColumns<{
 declare const wrappedProfilesRelation: drizzle_orm.Relations<"wrappedProfiles", {
     users: drizzle_orm.One<"users", true>;
 }>;
+declare const lembagaProfiles: drizzle_orm_pg_core.PgTableWithColumns<{
+    name: "lembagaProfiles";
+    schema: undefined;
+    columns: {
+        id: drizzle_orm_pg_core.PgColumn<{
+            name: "id";
+            tableName: "lembagaProfiles";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        lembaga: drizzle_orm_pg_core.PgColumn<{
+            name: "lembaga";
+            tableName: "lembagaProfiles";
+            dataType: "string";
+            columnType: "PgEnumColumn";
+            data: "BSO" | "UKM" | "HMPS" | "Pusat" | "Eksternal";
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: ["BSO", "UKM", "HMPS", "Pusat", "Eksternal"];
+            baseColumn: never;
+        }, {}, {}>;
+        detailedCategory: drizzle_orm_pg_core.PgColumn<{
+            name: "detailedCategory";
+            tableName: "lembagaProfiles";
+            dataType: "string";
+            columnType: "PgVarchar";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        name: drizzle_orm_pg_core.PgColumn<{
+            name: "name";
+            tableName: "lembagaProfiles";
+            dataType: "string";
+            columnType: "PgVarchar";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        logo: drizzle_orm_pg_core.PgColumn<{
+            name: "logo";
+            tableName: "lembagaProfiles";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        description: drizzle_orm_pg_core.PgColumn<{
+            name: "description";
+            tableName: "lembagaProfiles";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        instagram: drizzle_orm_pg_core.PgColumn<{
+            name: "instagram";
+            tableName: "lembagaProfiles";
+            dataType: "string";
+            columnType: "PgVarchar";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        visitorCount: drizzle_orm_pg_core.PgColumn<{
+            name: "visitorCount";
+            tableName: "lembagaProfiles";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: false;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+        userId: drizzle_orm_pg_core.PgColumn<{
+            name: "userId";
+            tableName: "lembagaProfiles";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        currentToken: drizzle_orm_pg_core.PgColumn<{
+            name: "currentToken";
+            tableName: "lembagaProfiles";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        currentExpiry: drizzle_orm_pg_core.PgColumn<{
+            name: "currentExpirty";
+            tableName: "lembagaProfiles";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: false;
+            hasDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+        createdAt: drizzle_orm_pg_core.PgColumn<{
+            name: "createdAt";
+            tableName: "lembagaProfiles";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+        updatedAt: drizzle_orm_pg_core.PgColumn<{
+            name: "updatedAt";
+            tableName: "lembagaProfiles";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+    };
+    dialect: "pg";
+}>;
 declare const merchandises: drizzle_orm_pg_core.PgTableWithColumns<{
     name: "merchandises";
     schema: undefined;
@@ -1645,6 +1820,128 @@ declare const merchandises: drizzle_orm_pg_core.PgTableWithColumns<{
 }>;
 declare const merchandiseRelations: drizzle_orm.Relations<"merchandises", {
     merchandiseExchangeDetails: drizzle_orm.Many<"merchandiseExchangeDetails">;
+}>;
+declare const visitors: drizzle_orm_pg_core.PgTableWithColumns<{
+    name: "boothClaims";
+    schema: undefined;
+    columns: {
+        id: drizzle_orm_pg_core.PgColumn<{
+            name: "id";
+            tableName: "boothClaims";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        userId: drizzle_orm_pg_core.PgColumn<{
+            name: "userId";
+            tableName: "boothClaims";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        boothId: drizzle_orm_pg_core.PgColumn<{
+            name: "boothId";
+            tableName: "boothClaims";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        createdAt: drizzle_orm_pg_core.PgColumn<{
+            name: "createdAt";
+            tableName: "boothClaims";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+        updatedAt: drizzle_orm_pg_core.PgColumn<{
+            name: "updatedAt";
+            tableName: "boothClaims";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+    };
+    dialect: "pg";
+}>;
+declare const merchandiseCarts: drizzle_orm_pg_core.PgTableWithColumns<{
+    name: "merchandiseCarts";
+    schema: undefined;
+    columns: {
+        userId: drizzle_orm_pg_core.PgColumn<{
+            name: "userId";
+            tableName: "merchandiseCarts";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        merchandiseId: drizzle_orm_pg_core.PgColumn<{
+            name: "merchandiseId";
+            tableName: "merchandiseCarts";
+            dataType: "string";
+            columnType: "PgText";
+            data: string;
+            driverParam: string;
+            notNull: true;
+            hasDefault: false;
+            enumValues: [string, ...string[]];
+            baseColumn: never;
+        }, {}, {}>;
+        quantity: drizzle_orm_pg_core.PgColumn<{
+            name: "quantity";
+            tableName: "merchandiseCarts";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: true;
+            hasDefault: false;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+        createdAt: drizzle_orm_pg_core.PgColumn<{
+            name: "createdAt";
+            tableName: "merchandiseCarts";
+            dataType: "date";
+            columnType: "PgTimestamp";
+            data: Date;
+            driverParam: string;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+    };
+    dialect: "pg";
 }>;
 declare const merchandiseExchanges: drizzle_orm_pg_core.PgTableWithColumns<{
     name: "merchandiseExchanges";
@@ -1792,4 +2089,4 @@ type PresenceEvent = (typeof presenceEventEnum.enumValues)[number];
 type ClassDay = (typeof classDayEnum.enumValues)[number];
 type Lembaga = (typeof lembagaEnum.enumValues)[number];
 
-export { type Assignment, type AssignmentSubmission, type AssignmentType, type Character, type Class, type ClassDay, type Event, type EventDay, type EventPresence, type Groups, type Lembaga, MBTIEnum, type Merchandise, type MerchandiseExchange, type MerchandiseExchangeDetail, type Message, type Notifications, type PostTest, type PresenceEvent, type PresenceType, type Profile, type ResetToken, type User, type UserFaculty, type UserGender, type UserMatch, type UserRole, type WrappedProfiles, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, characters, classDayEnum, classSessionEnum, classUserRelations, classes, createTable, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharactersRelations, eventsRelations, facultyEnum, genderEnum, groupRelations, groups, lembagaEnum, merchandiseExchangeDetails, merchandiseExchangeDetailsRelations, merchandiseExchangeRelations, merchandiseExchangeStatusEnum, merchandiseExchanges, merchandiseRelations, merchandises, messages, messagesRelations, notifications, postTestRelations, postTests, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, resetTokenRelations, resetTokens, roleEnum, userMatches, userMatchesRelations, users, usersRelations, wrappedProfiles, wrappedProfilesRelation };
+export { type Assignment, type AssignmentSubmission, type AssignmentType, type Character, type Class, type ClassDay, type Event, type EventDay, type EventPresence, type Groups, type Lembaga, MBTIEnum, type Merchandise, type MerchandiseExchange, type MerchandiseExchangeDetail, type Message, type Notifications, type PostTest, type PresenceEvent, type PresenceType, type Profile, type ResetToken, type User, type UserFaculty, type UserGender, type UserMatch, type UserRole, type WrappedProfiles, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, characters, classDayEnum, classSessionEnum, classUserRelations, classes, createTable, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharactersRelations, eventsRelations, facultyEnum, genderEnum, groupRelations, groups, lembagaEnum, lembagaProfiles, merchandiseCarts, merchandiseExchangeDetails, merchandiseExchangeDetailsRelations, merchandiseExchangeRelations, merchandiseExchangeStatusEnum, merchandiseExchanges, merchandiseRelations, merchandises, messages, messagesRelations, notifications, postTestRelations, postTests, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, resetTokenRelations, resetTokens, roleEnum, userMatches, userMatchesRelations, users, usersRelations, visitors, wrappedProfiles, wrappedProfilesRelation };

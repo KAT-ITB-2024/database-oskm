@@ -32,7 +32,13 @@ export const facultyEnum = pgEnum('faculty', [
   'STEI',
 ]);
 
-export const lembagaEnum = pgEnum('lembaga', ['HMJ', 'Unit']);
+export const lembagaEnum = pgEnum('lembaga', [
+  'BSO',
+  'UKM',
+  'HMPS',
+  'Pusat',
+  'Eksternal',
+]);
 
 export const roleEnum = pgEnum('role', ['Peserta', 'Mentor', 'Mamet', 'ITB-X']);
 
@@ -140,6 +146,7 @@ export const profiles = createTable(
       .notNull()
       .references(() => groups.name),
     lastMBTI: MBTIEnum('lastMBTI'),
+    coins: integer('coins').default(0),
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
@@ -516,6 +523,36 @@ export const wrappedProfilesRelation = relations(
   }),
 );
 
+// ITB-X
+export const lembagaProfiles = createTable('lembagaProfiles', {
+  id: text('id').primaryKey().$defaultFn(createId),
+  lembaga: lembagaEnum('lembaga').notNull(),
+  detailedCategory: varchar('detailedCategory', { length: 255 }),
+  name: varchar('name', { length: 255 }).notNull(),
+  logo: text('logo'),
+  description: text('description'),
+  instagram: varchar('instagram', { length: 255 }),
+  visitorCount: integer('visitorCount').default(0),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  currentToken: text('currentToken'),
+  currentExpiry: timestamp('currentExpirty', {
+    mode: 'date',
+    withTimezone: true,
+  }),
+  createdAt: timestamp('createdAt', {
+    mode: 'date',
+    withTimezone: true,
+  })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp('updatedAt', {
+    mode: 'date',
+    withTimezone: true,
+  }).notNull(),
+});
+
 export const merchandises = createTable('merchandises', {
   id: text('id').primaryKey().$defaultFn(createId),
   name: varchar('name', { length: 255 }).notNull(),
@@ -537,6 +574,51 @@ export const merchandises = createTable('merchandises', {
 export const merchandiseRelations = relations(merchandises, ({ many }) => ({
   merchandiseExchangeDetails: many(merchandiseExchangeDetails),
 }));
+
+// Sekalian buat tau apakah usernya udah pernah claim atau belum
+export const visitors = createTable('boothClaims', {
+  id: text('id').primaryKey().$defaultFn(createId),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  boothId: text('boothId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  createdAt: timestamp('createdAt', {
+    mode: 'date',
+    withTimezone: true,
+  })
+    .notNull()
+    .defaultNow(),
+  updatedAt: timestamp('updatedAt', {
+    mode: 'date',
+    withTimezone: true,
+  }).notNull(),
+});
+
+export const merchandiseCarts = createTable(
+  'merchandiseCarts',
+  {
+    userId: text('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    merchandiseId: text('merchandiseId')
+      .notNull()
+      .references(() => merchandises.id),
+    quantity: integer('quantity').notNull(),
+    createdAt: timestamp('createdAt', {
+      mode: 'date',
+      withTimezone: true,
+    })
+      .notNull()
+      .defaultNow(),
+  },
+  (cart) => ({
+    pk: primaryKey({
+      columns: [cart.userId, cart.merchandiseId],
+    }),
+  }),
+);
 
 export const merchandiseExchanges = createTable('merchandiseExchanges', {
   id: text('id').primaryKey().$defaultFn(createId),
