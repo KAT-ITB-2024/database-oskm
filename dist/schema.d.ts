@@ -1786,7 +1786,7 @@ declare const merchandises: drizzle_orm_pg_core.PgTableWithColumns<{
             columnType: "PgText";
             data: string;
             driverParam: string;
-            notNull: true;
+            notNull: false;
             hasDefault: false;
             enumValues: [string, ...string[]];
             baseColumn: never;
@@ -1888,61 +1888,6 @@ declare const visitors: drizzle_orm_pg_core.PgTableWithColumns<{
     };
     dialect: "pg";
 }>;
-declare const merchandiseCarts: drizzle_orm_pg_core.PgTableWithColumns<{
-    name: "merchandiseCarts";
-    schema: undefined;
-    columns: {
-        userId: drizzle_orm_pg_core.PgColumn<{
-            name: "userId";
-            tableName: "merchandiseCarts";
-            dataType: "string";
-            columnType: "PgText";
-            data: string;
-            driverParam: string;
-            notNull: true;
-            hasDefault: false;
-            enumValues: [string, ...string[]];
-            baseColumn: never;
-        }, {}, {}>;
-        merchandiseId: drizzle_orm_pg_core.PgColumn<{
-            name: "merchandiseId";
-            tableName: "merchandiseCarts";
-            dataType: "string";
-            columnType: "PgText";
-            data: string;
-            driverParam: string;
-            notNull: true;
-            hasDefault: false;
-            enumValues: [string, ...string[]];
-            baseColumn: never;
-        }, {}, {}>;
-        quantity: drizzle_orm_pg_core.PgColumn<{
-            name: "quantity";
-            tableName: "merchandiseCarts";
-            dataType: "number";
-            columnType: "PgInteger";
-            data: number;
-            driverParam: string | number;
-            notNull: true;
-            hasDefault: false;
-            enumValues: undefined;
-            baseColumn: never;
-        }, {}, {}>;
-        createdAt: drizzle_orm_pg_core.PgColumn<{
-            name: "createdAt";
-            tableName: "merchandiseCarts";
-            dataType: "date";
-            columnType: "PgTimestamp";
-            data: Date;
-            driverParam: string;
-            notNull: true;
-            hasDefault: true;
-            enumValues: undefined;
-            baseColumn: never;
-        }, {}, {}>;
-    };
-    dialect: "pg";
-}>;
 declare const merchandiseExchanges: drizzle_orm_pg_core.PgTableWithColumns<{
     name: "merchandiseExchanges";
     schema: undefined;
@@ -1981,6 +1926,30 @@ declare const merchandiseExchanges: drizzle_orm_pg_core.PgTableWithColumns<{
             notNull: true;
             hasDefault: false;
             enumValues: ["Taken", "Not Taken"];
+            baseColumn: never;
+        }, {}, {}>;
+        totalItem: drizzle_orm_pg_core.PgColumn<{
+            name: "totalItem";
+            tableName: "merchandiseExchanges";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
+        totalCoins: drizzle_orm_pg_core.PgColumn<{
+            name: "totalCoins";
+            tableName: "merchandiseExchanges";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
             baseColumn: never;
         }, {}, {}>;
         createdAt: drizzle_orm_pg_core.PgColumn<{
@@ -2089,4 +2058,4 @@ type PresenceEvent = (typeof presenceEventEnum.enumValues)[number];
 type ClassDay = (typeof classDayEnum.enumValues)[number];
 type Lembaga = (typeof lembagaEnum.enumValues)[number];
 
-export { type Assignment, type AssignmentSubmission, type AssignmentType, type Character, type Class, type ClassDay, type Event, type EventDay, type EventPresence, type Groups, type Lembaga, MBTIEnum, type Merchandise, type MerchandiseExchange, type MerchandiseExchangeDetail, type Message, type Notifications, type PostTest, type PresenceEvent, type PresenceType, type Profile, type ResetToken, type User, type UserFaculty, type UserGender, type UserMatch, type UserRole, type WrappedProfiles, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, characters, classDayEnum, classSessionEnum, classUserRelations, classes, createTable, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharactersRelations, eventsRelations, facultyEnum, genderEnum, groupRelations, groups, lembagaEnum, lembagaProfiles, merchandiseCarts, merchandiseExchangeDetails, merchandiseExchangeDetailsRelations, merchandiseExchangeRelations, merchandiseExchangeStatusEnum, merchandiseExchanges, merchandiseRelations, merchandises, messages, messagesRelations, notifications, postTestRelations, postTests, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, resetTokenRelations, resetTokens, roleEnum, userMatches, userMatchesRelations, users, usersRelations, visitors, wrappedProfiles, wrappedProfilesRelation };
+export { type Assignment, type AssignmentSubmission, type AssignmentType, type Character, type Class, type ClassDay, type Event, type EventDay, type EventPresence, type Groups, type Lembaga, MBTIEnum, type Merchandise, type MerchandiseExchange, type MerchandiseExchangeDetail, type Message, type Notifications, type PostTest, type PresenceEvent, type PresenceType, type Profile, type ResetToken, type User, type UserFaculty, type UserGender, type UserMatch, type UserRole, type WrappedProfiles, assignmentSubmissions, assignmentSubmissionsRelations, assignmentTypeEnum, assignments, characters, classDayEnum, classSessionEnum, classUserRelations, classes, createTable, eventDayEnum, eventPresences, eventPresencesRelations, events, eventsCharactersRelations, eventsRelations, facultyEnum, genderEnum, groupRelations, groups, lembagaEnum, lembagaProfiles, merchandiseExchangeDetails, merchandiseExchangeDetailsRelations, merchandiseExchangeRelations, merchandiseExchangeStatusEnum, merchandiseExchanges, merchandiseRelations, merchandises, messages, messagesRelations, notifications, postTestRelations, postTests, presenceEventEnum, presenceTypeEnum, profiles, profilesRelations, resetTokenRelations, resetTokens, roleEnum, userMatches, userMatchesRelations, users, usersRelations, visitors, wrappedProfiles, wrappedProfilesRelation };
