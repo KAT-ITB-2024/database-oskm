@@ -1,0 +1,1 @@
+ALTER TABLE "wrappedProfiles" ADD COLUMN "favTopicCount" integer DEFAULT 0 NOT NULL;

@@ -32,7 +32,13 @@ export const facultyEnum = pgEnum('faculty', [
   'STEI',
 ]);
 
-export const lembagaEnum = pgEnum('lembaga', ['HMJ', 'Unit']);
+export const lembagaEnum = pgEnum('lembaga', [
+  'BSO',
+  'UKM',
+  'HMPS',
+  'Pusat',
+  'Eksternal',
+]);
 
 export const roleEnum = pgEnum('role', ['Peserta', 'Mentor', 'Mamet', 'ITB-X']);
 
@@ -140,6 +146,7 @@ export const profiles = createTable(
       .notNull()
       .references(() => groups.name),
     lastMBTI: MBTIEnum('lastMBTI'),
+    coins: integer('coins').default(0),
   },
   (profile) => ({
     userIdIdx: index().on(profile.userId),
@@ -494,6 +501,7 @@ export const wrappedProfiles = createTable(
     favTopics: text('favTopics')
       .array()
       .default(sql`ARRAY[]::text[]`),
+    favTopicCount: integer('favTopicCount').notNull().default(0),
     rank: integer('rank').notNull(),
     rankPercentage: integer('rankPercentage').notNull(),
     updatedAt: timestamp('updatedAt', {
@@ -516,12 +524,80 @@ export const wrappedProfilesRelation = relations(
   }),
 );
 
-export const merchandises = createTable('merchandises', {
+// ITB-X
+export const lembagaProfiles = createTable(
+  'lembagaProfiles',
+  {
+    id: text('id').primaryKey().$defaultFn(createId),
+    lembaga: lembagaEnum('lembaga').notNull(),
+    detailedCategory: varchar('detailedCategory', { length: 255 }),
+    name: varchar('name', { length: 255 }).notNull(),
+    logo: text('logo'),
+    description: text('description'),
+    instagram: varchar('instagram', { length: 255 }),
+    visitorCount: integer('visitorCount').default(0),
+    userId: text('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    currentToken: text('currentToken'),
+    currentExpiry: timestamp('currentExpirty', {
+      mode: 'date',
+      withTimezone: true,
+    }),
+    createdAt: timestamp('createdAt', {
+      mode: 'date',
+      withTimezone: true,
+    })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
+  },
+  (lembaga) => ({
+    lembagaIdIdx: index().on(lembaga.id),
+    lembagaEnum: index().on(lembaga.name),
+  }),
+);
+
+export const merchandises = createTable(
+  'merchandises',
+  {
+    id: text('id').primaryKey().$defaultFn(createId),
+    name: varchar('name', { length: 255 }).notNull(),
+    price: integer('price').notNull(),
+    stock: integer('stock').notNull(),
+    image: text('image'),
+    createdAt: timestamp('createdAt', {
+      mode: 'date',
+      withTimezone: true,
+    })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
+  },
+  (merchandise) => ({
+    merchandiseIdIdx: index().on(merchandise.id),
+  }),
+);
+
+export const merchandiseRelations = relations(merchandises, ({ many }) => ({
+  merchandiseExchangeDetails: many(merchandiseExchangeDetails),
+}));
+
+// Sekalian buat tau apakah usernya udah pernah claim atau belum
+export const visitors = createTable('boothClaims', {
   id: text('id').primaryKey().$defaultFn(createId),
-  name: varchar('name', { length: 255 }).notNull(),
-  price: integer('price').notNull(),
-  stock: integer('stock').notNull(),
-  image: text('image').notNull(),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  boothId: text('boothId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
   createdAt: timestamp('createdAt', {
     mode: 'date',
     withTimezone: true,
@@ -534,16 +610,14 @@ export const merchandises = createTable('merchandises', {
   }).notNull(),
 });
 
-export const merchandiseRelations = relations(merchandises, ({ many }) => ({
-  merchandiseExchangeDetails: many(merchandiseExchangeDetails),
-}));
-
 export const merchandiseExchanges = createTable('merchandiseExchanges', {
   id: text('id').primaryKey().$defaultFn(createId),
   userId: text('userId')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   status: merchandiseExchangeStatusEnum('status').notNull(),
+  totalItem: integer('totalItem').notNull().default(0),
+  totalCoins: integer('totalCoins').notNull().default(0),
   createdAt: timestamp('createdAt', {
     mode: 'date',
     withTimezone: true,
