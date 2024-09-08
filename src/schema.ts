@@ -599,6 +599,7 @@ export const visitors = createTable('boothClaims', {
   boothId: text('boothId')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
+  isGranted: boolean('isGranted').default(false),
   createdAt: timestamp('createdAt', {
     mode: 'date',
     withTimezone: true,

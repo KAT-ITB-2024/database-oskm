@@ -1873,6 +1873,18 @@ declare const visitors: drizzle_orm_pg_core.PgTableWithColumns<{
             enumValues: [string, ...string[]];
             baseColumn: never;
         }, {}, {}>;
+        isGranted: drizzle_orm_pg_core.PgColumn<{
+            name: "isGranted";
+            tableName: "boothClaims";
+            dataType: "boolean";
+            columnType: "PgBoolean";
+            data: boolean;
+            driverParam: boolean;
+            notNull: false;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
         createdAt: drizzle_orm_pg_core.PgColumn<{
             name: "createdAt";
             tableName: "boothClaims";

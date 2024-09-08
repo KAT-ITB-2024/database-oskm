@@ -1,0 +1,1 @@
+ALTER TABLE "boothClaims" ADD COLUMN "isGranted" boolean DEFAULT false;

@@ -239,6 +239,13 @@
       "when": 1725804815858,
       "tag": "0033_exotic_silver_centurion",
       "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1725810990653,
+      "tag": "0034_mean_pestilence",
+      "breakpoints": true
     }
   ]
 }
