@@ -13,6 +13,7 @@ import {
   varchar,
   boolean,
   primaryKey,
+  numeric
 } from 'drizzle-orm/pg-core';
 
 export const createTable = pgTableCreator((name) => `${name}`);
@@ -503,7 +504,7 @@ export const wrappedProfiles = createTable(
       .default(sql`ARRAY[]::text[]`),
     favTopicCount: integer('favTopicCount').notNull().default(0),
     rank: integer('rank').notNull(),
-    rankPercentage: integer('rankPercentage').notNull(),
+    rankPercentage: numeric('rankPercentage').notNull(),
     updatedAt: timestamp('updatedAt', {
       mode: 'date',
       withTimezone: true,

@@ -1549,10 +1549,10 @@ declare const wrappedProfiles: drizzle_orm_pg_core.PgTableWithColumns<{
         rankPercentage: drizzle_orm_pg_core.PgColumn<{
             name: "rankPercentage";
             tableName: "wrappedProfiles";
-            dataType: "number";
-            columnType: "PgInteger";
-            data: number;
-            driverParam: string | number;
+            dataType: "string";
+            columnType: "PgNumeric";
+            data: string;
+            driverParam: string;
             notNull: true;
             hasDefault: false;
             enumValues: undefined;
