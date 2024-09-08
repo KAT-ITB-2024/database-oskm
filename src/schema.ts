@@ -501,6 +501,7 @@ export const wrappedProfiles = createTable(
     favTopics: text('favTopics')
       .array()
       .default(sql`ARRAY[]::text[]`),
+    favTopicCount: integer('favTopicCount').notNull().default(0),
     rank: integer('rank').notNull(),
     rankPercentage: integer('rankPercentage').notNull(),
     updatedAt: timestamp('updatedAt', {

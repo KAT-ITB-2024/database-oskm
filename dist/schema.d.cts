@@ -1522,6 +1522,18 @@ declare const wrappedProfiles: drizzle_orm_pg_core.PgTableWithColumns<{
                 baseColumn: never;
             }, object, object>;
         }, {}, {}>;
+        favTopicCount: drizzle_orm_pg_core.PgColumn<{
+            name: "favTopicCount";
+            tableName: "wrappedProfiles";
+            dataType: "number";
+            columnType: "PgInteger";
+            data: number;
+            driverParam: string | number;
+            notNull: true;
+            hasDefault: true;
+            enumValues: undefined;
+            baseColumn: never;
+        }, {}, {}>;
         rank: drizzle_orm_pg_core.PgColumn<{
             name: "rank";
             tableName: "wrappedProfiles";
