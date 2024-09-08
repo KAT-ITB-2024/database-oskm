@@ -232,6 +232,13 @@
       "when": 1725775997298,
       "tag": "0032_redundant_ultimo",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1725804815858,
+      "tag": "0033_exotic_silver_centurion",
+      "breakpoints": true
     }
   ]
 }
