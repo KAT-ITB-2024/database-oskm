@@ -1,0 +1,1 @@
+ALTER TABLE "lembagaProfiles" ADD COLUMN "detailLink" text;

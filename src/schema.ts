@@ -13,7 +13,7 @@ import {
   varchar,
   boolean,
   primaryKey,
-  numeric
+  numeric,
 } from 'drizzle-orm/pg-core';
 
 export const createTable = pgTableCreator((name) => `${name}`);
@@ -541,6 +541,7 @@ export const lembagaProfiles = createTable(
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     currentToken: text('currentToken'),
+    detailLink: text('detailLink'),
     currentExpiry: timestamp('currentExpirty', {
       mode: 'date',
       withTimezone: true,
@@ -697,6 +698,7 @@ export type Merchandise = typeof merchandises.$inferSelect;
 export type MerchandiseExchange = typeof merchandiseExchanges.$inferSelect;
 export type MerchandiseExchangeDetail =
   typeof merchandiseExchangeDetails.$inferSelect;
+export type LembagaProfiles = typeof lembagaProfiles.$inferSelect;
 
 export type UserRole = (typeof roleEnum.enumValues)[number];
 export type UserFaculty = (typeof facultyEnum.enumValues)[number];
