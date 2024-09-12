@@ -592,26 +592,32 @@ export const merchandiseRelations = relations(merchandises, ({ many }) => ({
 }));
 
 // Sekalian buat tau apakah usernya udah pernah claim atau belum
-export const visitors = createTable('boothClaims', {
-  id: text('id').primaryKey().$defaultFn(createId),
-  userId: text('userId')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
-  boothId: text('boothId')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
-  isGranted: boolean('isGranted').default(false),
-  createdAt: timestamp('createdAt', {
-    mode: 'date',
-    withTimezone: true,
-  })
-    .notNull()
-    .defaultNow(),
-  updatedAt: timestamp('updatedAt', {
-    mode: 'date',
-    withTimezone: true,
-  }).notNull(),
-});
+export const visitors = createTable(
+  'boothClaims',
+  {
+    id: text('id').primaryKey().$defaultFn(createId),
+    userId: text('userId')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    boothId: text('boothId')
+      .notNull()
+      .references(() => lembagaProfiles.id, { onDelete: 'cascade' }),
+    isGranted: boolean('isGranted').default(false),
+    createdAt: timestamp('createdAt', {
+      mode: 'date',
+      withTimezone: true,
+    })
+      .notNull()
+      .defaultNow(),
+    updatedAt: timestamp('updatedAt', {
+      mode: 'date',
+      withTimezone: true,
+    }).notNull(),
+  },
+  (visitor) => ({
+    boothIdx: index().on(visitor.id),
+  }),
+);
 
 export const merchandiseExchanges = createTable('merchandiseExchanges', {
   id: text('id').primaryKey().$defaultFn(createId),

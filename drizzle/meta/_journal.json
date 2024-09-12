@@ -253,6 +253,13 @@
       "when": 1726132889338,
       "tag": "0035_tranquil_thunderbolt",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1726158299019,
+      "tag": "0036_petite_squirrel_girl",
+      "breakpoints": true
     }
   ]
 }
